@@ -23,6 +23,14 @@ export const Portfolio: React.FC = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [workIndex, setWorkIndex] = useState(0);
   const [animIndex, setAnimIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const myWork: Project[] = [
     {
@@ -134,8 +142,8 @@ export const Portfolio: React.FC = () => {
     { title: "Brainrot Garden", type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/YFVyf0BW/Brainrotgarden.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" }
   ];
 
-  const nextWork = () => setWorkIndex((prev) => (prev + 1) % (myWork.length - 2));
-  const prevWork = () => setWorkIndex((prev) => (prev - 1 + (myWork.length - 2)) % (myWork.length - 2));
+  const nextWork = () => setWorkIndex((prev) => (prev + 1) % (isMobile ? myWork.length : myWork.length - 2));
+  const prevWork = () => setWorkIndex((prev) => (prev - 1 + (isMobile ? myWork.length : myWork.length - 2)) % (isMobile ? myWork.length : myWork.length - 2));
 
   const nextAnim = () => setAnimIndex((prev) => (prev + 6) % animationGifs.length);
   const prevAnim = () => setAnimIndex((prev) => (prev - 6 + animationGifs.length) % animationGifs.length);
@@ -281,7 +289,7 @@ export const Portfolio: React.FC = () => {
           </div>
 
           <div className="relative overflow-hidden mb-40">
-            <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" style={{ transform: `translateX(-${workIndex * (100 / 3)}%)` }}>
+            <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" style={{ transform: `translateX(-${workIndex * (isMobile ? 100 : 100 / 3)}%)` }}>
               {myWork.map((work, i) => (
                 <div key={i} className="min-w-full md:min-w-[33.33%] p-4">
                   <div className="group glass-card rounded-[2.5rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl h-full flex flex-col text-left">
@@ -364,6 +372,9 @@ export const Portfolio: React.FC = () => {
           __html: `
           @keyframes marquee-fast { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
           .animate-marquee-fast { animation: marquee-fast 12s linear infinite; }
+          @media (max-width: 768px) {
+            .animate-marquee-fast { animation-duration: 6s; }
+          }
           .custom-scrollbar::-webkit-scrollbar {
             width: 4px;
           }
