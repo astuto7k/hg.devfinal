@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hg.dev | UI Designer & VFX Artist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-black': '#02040a',
+              'brand-blue-glow': '#d6efff',
+              'brand-primary': '#00f2ff',
+              'brand-secondary': '#a855f7',
+            },
+            fontFamily: {
+              orbitron: ['Orbitron', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+              space: ['Space Grotesk', 'sans-serif'],
+            },
+            animation: {
+              'float': 'float 10s ease-in-out infinite',
+              'drift': 'drift 30s linear infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'twinkle': 'twinkle 4s ease-in-out infinite',
+              'nebula-float': 'nebula-float 60s ease-in-out infinite alternate',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translate(0, 0)' },
+                '33%': { transform: 'translate(15px, -20px)' },
+                '66%': { transform: 'translate(-15px, 20px)' },
+              },
+              drift: {
+                '0%': { backgroundPosition: '0 0' },
+                '100%': { backgroundPosition: '500px 1000px' },
+              },
+              twinkle: {
+                '0%, 100%': { opacity: 0.8, transform: 'scale(1)' },
+                '50%': { opacity: 0.2, transform: 'scale(0.7)' },
+              },
+              'nebula-float': {
+                '0%': { transform: 'scale(1) translate(0, 0) rotate(0deg)' },
+                '100%': { transform: 'scale(1.2) translate(5%, 5%) rotate(5deg)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #00020a;
+        color: white;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        position: relative;
+        /* Estrelas base */
+        background-image: 
+          radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(1.5px 1.5px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 150px 160px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(1.5px 1.5px at 230px 180px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 160px 220px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(2px 2px at 280px 80px, #ffffff, rgba(0,0,0,0)),
+          radial-gradient(1px 1px at 10px 200px, #ffffff, rgba(0,0,0,0));
+        background-repeat: repeat;
+        background-size: 300px 300px;
+        background-attachment: fixed;
+      }
+      
+      /* Camada de Nebulosas (Espaço Profundo) */
+      body::before {
+        content: "";
+        position: fixed;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: 
+          radial-gradient(circle at 30% 30%, rgba(0, 242, 255, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 50% 50%, rgba(13, 37, 73, 0.1) 0%, transparent 60%);
+        filter: blur(80px);
+        z-index: -2;
+        pointer-events: none;
+        animation: nebula-float 60s ease-in-out infinite alternate;
+      }
+
+      /* Camada de Poeira Estelar e Brilho extra */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: 
+          radial-gradient(1px 1px at 10% 10%, rgba(255,255,255,0.4), transparent),
+          radial-gradient(1px 1px at 90% 85%, rgba(255,255,255,0.3), transparent),
+          radial-gradient(2px 2px at 45% 45%, rgba(0, 242, 255, 0.2), transparent);
+        background-size: 600px 600px;
+        background-repeat: repeat;
+        opacity: 0.3;
+        z-index: -1;
+        pointer-events: none;
+      }
+      
+      /* TRANSPARÊNCIA UNIVERSAL */
+      #root, section, footer, nav, header, main, div[id], 
+      .bg-brand-black, .bg-brand-dark, .bg-brand-darker, .bg-black,
+      .bg-white\/5, .bg-brand-primary\/5 {
+        background-color: transparent !important;
+        background-image: none !important;
+      }
+
+      /* Remoção específica de fundos */
+      #about, #projects, #experience, #skills, #nexus, #chronicle, #contact, #hero {
+        background-color: transparent !important;
+      }
+      
+      .glass-card {
+        background: rgba(255, 255, 255, 0.01) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-color: rgba(0, 242, 255, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px -10px rgba(0, 242, 255, 0.1);
+      }
+      
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      
+      /* NOVAS ANIMAÇÕES DE REVELAÇÃO (REVEAL) SUAVES E DIRECIONAIS */
+      .reveal {
+        opacity: 0;
+        filter: blur(10px);
+        transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity, filter;
+      }
+      
+      .reveal-left { transform: translateX(-100px) translateY(20px) !important; }
+      .reveal-right { transform: translateX(100px) translateY(20px) !important; }
+      .reveal-up { transform: translateY(40px) translateX(0) !important; }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) !important;
+        filter: blur(0px);
+      }
+
+      html::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.2), transparent);
+        z-index: 100;
+        pointer-events: none;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
