@@ -214,7 +214,7 @@ export const Portfolio: React.FC = () => {
                         onClick={() => setActiveImageIndex(i)}
                         className={`flex-shrink-0 w-28 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 ${activeImageIndex === i ? 'border-[#2B9FE6] scale-105 shadow-[0_0_20px_rgba(43,159,230,0.3)]' : 'border-white/5 opacity-40 hover:opacity-100'}`}
                       >
-                        <img src={img} className="w-full h-full object-cover" alt={`thumb ${i}`} />
+                        <img src={img} className="w-full h-full object-cover" alt={`thumb ${i}`} loading="lazy" />
                       </button>
                     ))}
                   </div>
@@ -286,7 +286,7 @@ export const Portfolio: React.FC = () => {
                 <div key={i} className="min-w-full md:min-w-[33.33%] p-4">
                   <div className="group glass-card rounded-[2.5rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl h-full flex flex-col text-left">
                     <div className="h-64 overflow-hidden relative bg-white/5">
-                      <img src={work.img} alt={work.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                      <img src={work.img} alt={work.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" loading="lazy" />
                       <div className="absolute top-6 right-6"><PlatformBadge platform={work.platform} /></div>
                     </div>
                     <div className="p-8 flex flex-col flex-grow">
@@ -322,10 +322,11 @@ export const Portfolio: React.FC = () => {
               {animationGifs.slice(animIndex, animIndex + 6).map((gif, i) => (
                 <div key={i} className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
                   <iframe
-                    src={`${gif.url}?autoplay=1&mute=1&loop=1&playlist=${gif.url.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0`}
+                    src={`${gif.url}?autoplay=1&mute=1&loop=1&playlist=${gif.url.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
                     className="w-[150%] h-[150%] pointer-events-none"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     frameBorder="0"
+                    loading="lazy"
                   />
                   {/* Overlay to catch clicks and maintain GIF feel */}
                   <div className="absolute inset-0 z-10"></div>
@@ -342,7 +343,7 @@ export const Portfolio: React.FC = () => {
                   <div key={i} className="inline-block px-4 w-[340px] text-left">
                     <div className="group glass-card rounded-[2rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl flex flex-col h-[380px]">
                       <div className="h-44 overflow-hidden relative flex-shrink-0 bg-white/5">
-                        <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                        <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" loading="lazy" />
                         <div className="absolute top-4 right-4"><PlatformBadge platform={game.platform} /></div>
                       </div>
                       <div className="p-6 flex flex-col flex-grow">
