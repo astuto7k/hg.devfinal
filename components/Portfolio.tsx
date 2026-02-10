@@ -107,26 +107,17 @@ export const Portfolio: React.FC = () => {
   ];
 
   const animationGifs = [
-    { url: "https://www.youtube.com/embed/frFywxsrK3A" }, // 9 cima
-    { url: "https://www.youtube.com/embed/eAEo4BNxz2E" }, // 8 cima
-    { url: "https://www.youtube.com/embed/vysq3BSaLJY" }, // 7 cima
-    { url: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9 baixo
-    { url: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8 baixo
-    { url: "https://www.youtube.com/embed/W17Yt7P3T78" }, // 7 baixo
+    { cima: "https://www.youtube.com/embed/frFywxsrK3A", baixo: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9
+    { cima: "https://www.youtube.com/embed/eAEo4BNxz2E", baixo: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8
+    { cima: "https://www.youtube.com/embed/vysq3BSaLJY", baixo: "https://www.youtube.com/embed/W17Yt7P3T78" }, // 7
 
-    { url: "https://www.youtube.com/embed/HGM95jrkFec" }, // 6 cima
-    { url: "https://www.youtube.com/embed/fqqlMWF-l6A" }, // 5 cima
-    { url: "https://www.youtube.com/embed/faNWu7M_7g4" }, // 4 cima
-    { url: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6 baixo
-    { url: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5 baixo
-    { url: "https://www.youtube.com/embed/UgoFGoH6ZtM" }, // 4 baixo
+    { cima: "https://www.youtube.com/embed/HGM95jrkFec", baixo: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6
+    { cima: "https://www.youtube.com/embed/fqqlMWF-l6A", baixo: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5
+    { cima: "https://www.youtube.com/embed/faNWu7M_7g4", baixo: "https://www.youtube.com/embed/UgoFGoH6ZtM" }, // 4
 
-    { url: "https://www.youtube.com/embed/JLSGy6IgQYc" }, // 3 cima
-    { url: "https://www.youtube.com/embed/vIVMpHD_PhY" }, // 2 cima
-    { url: "https://www.youtube.com/embed/1cs1wf35jes" }, // 1 cima
-    { url: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3 baixo
-    { url: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2 baixo
-    { url: "https://www.youtube.com/embed/Ibfb9BQPy5Y" }  // 1 baixo
+    { cima: "https://www.youtube.com/embed/JLSGy6IgQYc", baixo: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3
+    { cima: "https://www.youtube.com/embed/vIVMpHD_PhY", baixo: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2
+    { cima: "https://www.youtube.com/embed/1cs1wf35jes", baixo: "https://www.youtube.com/embed/Ibfb9BQPy5Y" }  // 1
   ];
 
   const principalGames = [
@@ -145,8 +136,8 @@ export const Portfolio: React.FC = () => {
   const nextWork = () => setWorkIndex((prev) => (prev + 1) % (isMobile ? myWork.length : myWork.length - 2));
   const prevWork = () => setWorkIndex((prev) => (prev - 1 + (isMobile ? myWork.length : myWork.length - 2)) % (isMobile ? myWork.length : myWork.length - 2));
 
-  const nextAnim = () => setAnimIndex((prev) => (prev + 6) % animationGifs.length);
-  const prevAnim = () => setAnimIndex((prev) => (prev - 6 + animationGifs.length) % animationGifs.length);
+  const nextAnim = () => setAnimIndex((prev) => (prev + 3) % animationGifs.length);
+  const prevAnim = () => setAnimIndex((prev) => (prev - 3 + animationGifs.length) % animationGifs.length);
 
   useEffect(() => {
     if (selectedProject) {
@@ -327,17 +318,30 @@ export const Portfolio: React.FC = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {animationGifs.slice(animIndex, animIndex + 6).map((gif, i) => (
-                <div key={i} className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
-                  <iframe
-                    src={`${gif.url}?autoplay=1&mute=1&loop=1&playlist=${gif.url.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
-                    className="w-[150%] h-[150%] pointer-events-none"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    frameBorder="0"
-                    loading="lazy"
-                  />
-                  {/* Overlay to catch clicks and maintain GIF feel */}
-                  <div className="absolute inset-0 z-10"></div>
+              {animationGifs.slice(animIndex, animIndex + 3).map((pair, i) => (
+                <div key={i} className="flex flex-col gap-8">
+                  {/* CIMA */}
+                  <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
+                    <iframe
+                      src={`${pair.cima}?autoplay=1&mute=1&loop=1&playlist=${pair.cima.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
+                      className="w-[150%] h-[150%] pointer-events-none"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      frameBorder="0"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 z-10"></div>
+                  </div>
+                  {/* BAIXO */}
+                  <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
+                    <iframe
+                      src={`${pair.baixo}?autoplay=1&mute=1&loop=1&playlist=${pair.baixo.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
+                      className="w-[150%] h-[150%] pointer-events-none"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      frameBorder="0"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 z-10"></div>
+                  </div>
                 </div>
               ))}
             </div>
