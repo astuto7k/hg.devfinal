@@ -323,22 +323,20 @@ export const Portfolio: React.FC = () => {
                   {/* CIMA */}
                   <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
                     <iframe
-                      src={`${pair.cima}?autoplay=1&mute=1&loop=1&playlist=${pair.cima.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
+                      src={`${pair.cima}?autoplay=1&mute=1&loop=1&playlist=${pair.cima.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1&widgetv2=1`}
                       className="w-[150%] h-[150%] pointer-events-none"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       frameBorder="0"
-                      loading="lazy"
                     />
                     <div className="absolute inset-0 z-10"></div>
                   </div>
                   {/* BAIXO */}
                   <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
                     <iframe
-                      src={`${pair.baixo}?autoplay=1&mute=1&loop=1&playlist=${pair.baixo.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1`}
+                      src={`${pair.baixo}?autoplay=1&mute=1&loop=1&playlist=${pair.baixo.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1&widgetv2=1`}
                       className="w-[150%] h-[150%] pointer-events-none"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       frameBorder="0"
-                      loading="lazy"
                     />
                     <div className="absolute inset-0 z-10"></div>
                   </div>
