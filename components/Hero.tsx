@@ -53,7 +53,7 @@ export const Hero: React.FC = () => {
         const randomChance = Math.random();
 
         if (isRightSide || randomChance < 0.25) {
-          const posX = (cell.c / cols) * 100 + (Math.random() * (100 / cols) * 0.6);
+          const posX = (cell.c / cols) * 85 + (Math.random() * 5);
           const posY = (cell.r / rows) * 100 + (Math.random() * (100 / rows) * 0.6);
 
           newElements.push({
