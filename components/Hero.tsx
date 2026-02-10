@@ -32,11 +32,11 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const generateElements = () => {
       const newElements = [];
-      const wordTarget = 35; 
+      const wordTarget = 35;
       const rows = 8;
       const cols = 10;
       const cells: { r: number, c: number }[] = [];
-      
+
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           cells.push({ r, c });
@@ -51,7 +51,7 @@ export const Hero: React.FC = () => {
 
         const isRightSide = cell.c >= cols / 2;
         const randomChance = Math.random();
-        
+
         if (isRightSide || randomChance < 0.25) {
           const posX = (cell.c / cols) * 100 + (Math.random() * (100 / cols) * 0.6);
           const posY = (cell.r / rows) * 100 + (Math.random() * (100 / rows) * 0.6);
@@ -89,7 +89,7 @@ export const Hero: React.FC = () => {
               opacity: el.opacity,
               animationDelay: `${el.delay}s`,
               letterSpacing: '0.15em',
-              color: '#2B9FE6' 
+              color: '#2B9FE6'
             }}
           >
             {el.text}
@@ -97,9 +97,9 @@ export const Hero: React.FC = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10">
+      <div className="w-full px-4 md:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
+
           <div className="flex justify-center lg:justify-start order-1 lg:order-1 reveal active">
             <div className="relative group">
               <div className="w-64 h-64 md:w-[480px] md:h-[480px] rounded-full p-1.5 border border-brand-primary/10 shadow-[0_0_120px_rgba(43,159,230,0.12)] relative transition-all duration-700">
@@ -129,7 +129,7 @@ export const Hero: React.FC = () => {
                 UI Designer, Animator & Visual Effects Artist
               </h2>
               <p className="font-inter text-white/50 text-sm md:text-base max-w-lg leading-relaxed">
-                I craft immersive UI systems, expressive motion, and visual effects for Roblox games. 
+                I craft immersive UI systems, expressive motion, and visual effects for Roblox games.
                 My focus is clarity, energy, and polish that keeps players engaged.
               </p>
             </div>

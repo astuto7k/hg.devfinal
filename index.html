@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="w-full overflow-x-hidden p-0 m-0">
 
 <head>
   <meta charset="UTF-8">
@@ -61,6 +61,9 @@
       color: white;
       scroll-behavior: smooth;
       overflow-x: hidden;
+      width: 100%;
+      margin: 0;
+      padding: 0;
       position: relative;
       /* Estrelas base */
       background-image:
@@ -224,6 +227,7 @@
       .reveal {
         transition-duration: 0.3s !important;
         filter: none !important;
+        will-change: transform, opacity;
       }
     }
   </style>

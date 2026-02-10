@@ -267,7 +267,7 @@ export const Portfolio: React.FC = () => {
 
       {/* Main Portfolio Layout */}
       <div id="portfolio" className="relative reveal reveal-up pb-40">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full px-4 md:px-12">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>
               <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">My <span className="text-[#2B9FE6]">Work</span></h2>
