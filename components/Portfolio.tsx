@@ -22,6 +22,7 @@ export const Portfolio: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [workIndex, setWorkIndex] = useState(0);
+  const [animIndex, setAnimIndex] = useState(0);
 
   const myWork: Project[] = [
     {
@@ -98,12 +99,24 @@ export const Portfolio: React.FC = () => {
   ];
 
   const animationGifs = [
-    { url: "https://www.youtube.com/embed/IqXfpDXK2kw" },
-    { url: "https://www.youtube.com/embed/sRtx2LfUmOk" },
-    { url: "https://www.youtube.com/embed/9QDpaXu1ITg" },
-    { url: "https://www.youtube.com/embed/oEI8ufTuQfk" },
-    { url: "https://www.youtube.com/embed/Ff0Kd7hxR-E" },
-    { url: "https://www.youtube.com/embed/2xwKvqGd3SE" }
+    { url: "https://www.youtube.com/embed/frFywxsrK3A" }, // 9 cima
+    { url: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9 baixo
+    { url: "https://www.youtube.com/embed/eAEo4BNxz2E" }, // 8 cima
+    { url: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8 baixo
+    { url: "https://www.youtube.com/embed/vysq3BSaLJY" }, // 7 cima
+    { url: "https://www.youtube.com/embed/W17Yt7P3T78" }, // 7 baixo
+    { url: "https://www.youtube.com/embed/HGM95jrkFec" }, // 6 cima
+    { url: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6 baixo
+    { url: "https://www.youtube.com/embed/fqqlMWF-l6A" }, // 5 cima
+    { url: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5 baixo
+    { url: "https://www.youtube.com/embed/faNWu7M_7g4" }, // 4 cima
+    { url: "https://www.youtube.com/embed/UgoFGoH6ZtM" }, // 4 baixo
+    { url: "https://www.youtube.com/embed/JLSGy6IgQYc" }, // 3 cima
+    { url: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3 baixo
+    { url: "https://www.youtube.com/embed/vIVMpHD_PhY" }, // 2 cima
+    { url: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2 baixo
+    { url: "https://www.youtube.com/embed/1cs1wf35jes" }, // 1 cima
+    { url: "https://www.youtube.com/embed/Ibfb9BQPy5Y" }  // 1 baixo
   ];
 
   const principalGames = [
@@ -121,6 +134,9 @@ export const Portfolio: React.FC = () => {
 
   const nextWork = () => setWorkIndex((prev) => (prev + 1) % (myWork.length - 2));
   const prevWork = () => setWorkIndex((prev) => (prev - 1 + (myWork.length - 2)) % (myWork.length - 2));
+
+  const nextAnim = () => setAnimIndex((prev) => (prev + 6) % animationGifs.length);
+  const prevAnim = () => setAnimIndex((prev) => (prev - 6 + animationGifs.length) % animationGifs.length);
 
   useEffect(() => {
     if (selectedProject) {
@@ -286,12 +302,22 @@ export const Portfolio: React.FC = () => {
 
           {/* New ANIMATION subsection */}
           <div className="mb-40 reveal reveal-up">
-            <div className="flex items-center gap-4 mb-10">
-              <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
-              <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">ANIMATION</h3>
+            <div className="flex items-center justify-between mb-10">
+              <div className="flex items-center gap-4">
+                <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
+                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">ANIMATION</h3>
+              </div>
+              <div className="flex gap-4">
+                <button onClick={prevAnim} className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-[#2B9FE6] hover:text-brand-black transition-all">
+                  <ChevronLeft size={24} />
+                </button>
+                <button onClick={nextAnim} className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-[#2B9FE6] hover:text-brand-black transition-all">
+                  <ChevronRight size={24} />
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {animationGifs.map((gif, i) => (
+              {animationGifs.slice(animIndex, animIndex + 6).map((gif, i) => (
                 <div key={i} className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
                   <iframe
                     src={`${gif.url}?autoplay=1&mute=1&loop=1&playlist=${gif.url.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0`}
