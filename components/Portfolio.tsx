@@ -100,22 +100,24 @@ export const Portfolio: React.FC = () => {
 
   const animationGifs = [
     { url: "https://www.youtube.com/embed/frFywxsrK3A" }, // 9 cima
-    { url: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9 baixo
     { url: "https://www.youtube.com/embed/eAEo4BNxz2E" }, // 8 cima
-    { url: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8 baixo
     { url: "https://www.youtube.com/embed/vysq3BSaLJY" }, // 7 cima
+    { url: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9 baixo
+    { url: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8 baixo
     { url: "https://www.youtube.com/embed/W17Yt7P3T78" }, // 7 baixo
+
     { url: "https://www.youtube.com/embed/HGM95jrkFec" }, // 6 cima
-    { url: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6 baixo
     { url: "https://www.youtube.com/embed/fqqlMWF-l6A" }, // 5 cima
-    { url: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5 baixo
     { url: "https://www.youtube.com/embed/faNWu7M_7g4" }, // 4 cima
+    { url: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6 baixo
+    { url: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5 baixo
     { url: "https://www.youtube.com/embed/UgoFGoH6ZtM" }, // 4 baixo
+
     { url: "https://www.youtube.com/embed/JLSGy6IgQYc" }, // 3 cima
-    { url: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3 baixo
     { url: "https://www.youtube.com/embed/vIVMpHD_PhY" }, // 2 cima
-    { url: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2 baixo
     { url: "https://www.youtube.com/embed/1cs1wf35jes" }, // 1 cima
+    { url: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3 baixo
+    { url: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2 baixo
     { url: "https://www.youtube.com/embed/Ibfb9BQPy5Y" }  // 1 baixo
   ];
 
