@@ -29,8 +29,8 @@ const App: React.FC = () => {
       <Hero />
       <About />
       <Portfolio />
-      <Contact />
       <Stats />
+      <Contact />
       <Footer />
     </div>
   );
