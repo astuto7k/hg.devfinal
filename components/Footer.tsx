@@ -5,7 +5,6 @@ export const Footer: React.FC = () => {
   const links = [
     { name: "Home", href: "#hero" },
     { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Contact", href: "#contact" }
   ];
@@ -42,9 +41,19 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <p className="font-inter text-[11px] font-bold tracking-widest text-white/20 uppercase">
             {new Date().getFullYear()} Hg.dev - All rights reserved.
+          </p>
+          <p className="font-inter text-[11px] text-white/30">
+            <a
+              href="https://discord.com/channels/@me/1057488804497326152"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#2B9FE6] transition-colors"
+            >
+              powered by Astuto
+            </a>
           </p>
         </div>
       </div>
