@@ -28,7 +28,6 @@ const App: React.FC = () => {
       <Navbar />
       <Hero />
       <About />
-      <Skills />
       <Portfolio />
       <Contact />
       <Stats />
