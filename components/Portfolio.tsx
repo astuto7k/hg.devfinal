@@ -271,7 +271,7 @@ export const Portfolio: React.FC = () => {
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>
               <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">My <span className="text-[#2B9FE6]">Work</span></h2>
-              <p className="font-inter text-white/40 text-base max-w-xl">Detailed previews with UI, motion, and VFX breakdowns.</p>
+              <p className="font-inter text-white/40 text-base max-w-xl">Animation created in Blender for Fortnite and Roblox.</p>
             </div>
             <div className="flex gap-4">
               <button onClick={prevWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronLeft size={24} /></button>
@@ -279,29 +279,7 @@ export const Portfolio: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative overflow-hidden mb-40">
-            <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" style={{ transform: `translateX(-${workIndex * (isMobile ? 100 : 100 / 3)}%)` }}>
-              {myWork.map((work, i) => (
-                <div key={i} className="min-w-full md:min-w-[33.33%] p-4">
-                  <div className="group glass-card rounded-[2.5rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl h-full flex flex-col text-left">
-                    <div className="h-64 overflow-hidden relative bg-white/5">
-                      <img src={work.img} alt={work.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" loading="lazy" />
-                      <div className="absolute top-6 right-6"><PlatformBadge platform={work.platform} /></div>
-                    </div>
-                    <div className="p-8 flex flex-col flex-grow">
-                      <h4 className="font-orbitron text-xl font-black text-white group-hover:text-[#2B9FE6] transition-colors uppercase mb-1">{work.title}</h4>
-                      <p className="font-inter text-xs text-white/30 font-bold uppercase tracking-widest mb-6">{work.type}</p>
-                      <button onClick={() => setSelectedProject(work)} className="w-full py-4 bg-[#2B9FE6]/10 border border-[#2B9FE6]/30 rounded-2xl font-orbitron text-[10px] font-black text-white uppercase tracking-[0.2em] hover:bg-[#2B9FE6] hover:text-brand-black transition-all flex items-center justify-center gap-3 mt-auto">
-                        Explore project <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* New ANIMATION subsection */}
+          {/* ANIMATION subsection - first */}
           <div className="mb-40 reveal reveal-up">
             <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
@@ -339,6 +317,28 @@ export const Portfolio: React.FC = () => {
                       frameBorder="0"
                     />
                     <div className="absolute inset-0 z-10"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden mb-40">
+            <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" style={{ transform: `translateX(-${workIndex * (isMobile ? 100 : 100 / 3)}%)` }}>
+              {myWork.map((work, i) => (
+                <div key={i} className="min-w-full md:min-w-[33.33%] p-4">
+                  <div className="group glass-card rounded-[2.5rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl h-full flex flex-col text-left">
+                    <div className="h-64 overflow-hidden relative bg-white/5">
+                      <img src={work.img} alt={work.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" loading="lazy" />
+                      <div className="absolute top-6 right-6"><PlatformBadge platform={work.platform} /></div>
+                    </div>
+                    <div className="p-8 flex flex-col flex-grow">
+                      <h4 className="font-orbitron text-xl font-black text-white group-hover:text-[#2B9FE6] transition-colors uppercase mb-1">{work.title}</h4>
+                      <p className="font-inter text-xs text-white/30 font-bold uppercase tracking-widest mb-6">{work.type}</p>
+                      <button onClick={() => setSelectedProject(work)} className="w-full py-4 bg-[#2B9FE6]/10 border border-[#2B9FE6]/30 rounded-2xl font-orbitron text-[10px] font-black text-white uppercase tracking-[0.2em] hover:bg-[#2B9FE6] hover:text-brand-black transition-all flex items-center justify-center gap-3 mt-auto">
+                        Explore project <ChevronRight size={14} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
