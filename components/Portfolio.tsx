@@ -319,6 +319,14 @@ export const Portfolio: React.FC = () => {
             </div>
           </div>
 
+          {/* UI DESIGN heading (before work cards) */}
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-4">
+              <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
+              <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">UI DESIGN</h3>
+            </div>
+          </div>
+
           {/* Work carousel controls (moved down to avoid clashing with animation controls) */}
           <div className="flex justify-end gap-4 mb-6">
             <button onClick={prevWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronLeft size={24} /></button>
