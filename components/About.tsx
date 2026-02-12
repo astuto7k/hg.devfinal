@@ -22,7 +22,7 @@ export const About: React.FC = () => {
 
         <div className="grid lg:grid-cols-3 gap-8 mb-40 reveal reveal-up">
           <div className="lg:col-span-2 glass-card rounded-[2.5rem] p-10 md:p-14 border-white/5">
-            <h3 className="font-orbitron text-white/20 font-bold text-xs tracking-widest uppercase mb-12">Expertise</h3>
+            <h3 className="font-orbitron text-white/20 font-bold text-xs tracking-widest uppercase mb-12">MY SKILLS</h3>
             <div className="grid md:grid-cols-3 gap-10">
               {[
                 { title: "UI Designer", desc: "Menus, HUDs, and progression systems.", icon: <LayoutGrid className="text-[#2B9FE6]" size={28} /> },
