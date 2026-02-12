@@ -273,10 +273,6 @@ export const Portfolio: React.FC = () => {
               <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">My <span className="text-[#2B9FE6]">Work</span></h2>
               <p className="font-inter text-white/40 text-base max-w-xl">Animation created in Blender for Fortnite and Roblox.</p>
             </div>
-            <div className="flex gap-4">
-              <button onClick={prevWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronLeft size={24} /></button>
-              <button onClick={nextWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronRight size={24} /></button>
-            </div>
           </div>
 
           {/* ANIMATION subsection - first */}
@@ -321,6 +317,12 @@ export const Portfolio: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Work carousel controls (moved down to avoid clashing with animation controls) */}
+          <div className="flex justify-end gap-4 mb-6">
+            <button onClick={prevWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronLeft size={24} /></button>
+            <button onClick={nextWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronRight size={24} /></button>
           </div>
 
           <div className="relative overflow-hidden mb-40">
