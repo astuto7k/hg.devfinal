@@ -50,9 +50,6 @@ export const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="pt-10 pb-40 px-6 relative overflow-hidden">
-      {/* Glow background effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[800px] bg-[#2B9FE6]/5 blur-[160px] pointer-events-none rounded-full"></div>
-
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-20 reveal">
           <h4 className="font-orbitron text-[#2B9FE6] font-bold tracking-[0.5em] uppercase text-[12px] mb-6">CONTACT</h4>
