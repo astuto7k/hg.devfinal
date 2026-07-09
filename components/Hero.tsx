@@ -154,7 +154,7 @@ export const Hero: React.FC = () => {
                 <p className="text-white/30 text-[10px] leading-tight mt-4 font-medium uppercase tracking-wider">UI and VFX stack</p>
               </div>
               <div className="glass-card p-7 rounded-2xl border-white/5 group">
-                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+50B</h3>
+                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+75B</h3>
                 <p className="text-white font-bold text-xs mt-1">Contributions</p>
                 <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider">Global impact</p>
               </div>
