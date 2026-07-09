@@ -19,9 +19,9 @@ export const Stats: React.FC = () => {
             <div className="mb-10 text-white/10 group-hover:text-[#2B9FE6]/40 transition-colors duration-500">
               <Users size={32} strokeWidth={1.5} />
             </div>
-            <h3 className="font-orbitron text-6xl md:text-7xl font-black text-white mb-4 tracking-tighter group-hover:scale-110 transition-transform duration-700">+5 Front Pages</h3>
+            <h3 className="font-orbitron text-6xl md:text-7xl font-black text-white mb-4 tracking-tighter group-hover:scale-110 transition-transform duration-700">+5</h3>
             <div className="space-y-1">
-              <p className="font-orbitron text-[11px] font-black text-white/90 uppercase tracking-[0.2em]">Featured</p>
+              <p className="font-orbitron text-[11px] font-black text-white/90 uppercase tracking-[0.2em]">Front Pages</p>
               <p className="font-orbitron text-[9px] font-bold text-[#2B9FE6] uppercase tracking-[0.3em] opacity-40">Roblox Home</p>
             </div>
           </div>

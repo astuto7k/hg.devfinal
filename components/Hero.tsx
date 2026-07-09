@@ -145,8 +145,8 @@ export const Hero: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-6">
               <div className="glass-card p-7 rounded-2xl border-white/5 group">
-                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+5 Front Pages</h3>
-                <p className="text-white font-bold text-xs mt-1">Featured</p>
+                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+5</h3>
+                <p className="text-white font-bold text-xs mt-1">Front Pages</p>
                 <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider">Roblox Home</p>
               </div>
               <div className="glass-card p-7 rounded-2xl border-l-4 border-l-brand-primary/40 border-white/5 group">
