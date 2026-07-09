@@ -107,17 +107,15 @@ export const Portfolio: React.FC = () => {
   ];
 
   const animationGifs = [
-    { cima: "https://www.youtube.com/embed/frFywxsrK3A", baixo: "https://www.youtube.com/embed/jCZ7FJqALx4" }, // 9
-    { cima: "https://www.youtube.com/embed/eAEo4BNxz2E", baixo: "https://www.youtube.com/embed/LW7XUR0thqg" }, // 8
-    { cima: "https://www.youtube.com/embed/vysq3BSaLJY", baixo: "https://www.youtube.com/embed/W17Yt7P3T78" }, // 7
-
-    { cima: "https://www.youtube.com/embed/HGM95jrkFec", baixo: "https://www.youtube.com/embed/W0y8PlJ8F6c" }, // 6
-    { cima: "https://www.youtube.com/embed/fqqlMWF-l6A", baixo: "https://www.youtube.com/embed/s84FHPmzcdY" }, // 5
-    { cima: "https://www.youtube.com/embed/faNWu7M_7g4", baixo: "https://www.youtube.com/embed/UgoFGoH6ZtM" }, // 4
-
-    { cima: "https://www.youtube.com/embed/JLSGy6IgQYc", baixo: "https://www.youtube.com/embed/ujRP1NhTgn8" }, // 3
-    { cima: "https://www.youtube.com/embed/vIVMpHD_PhY", baixo: "https://www.youtube.com/embed/u5ypJXFu8Ms" }, // 2
-    { cima: "https://www.youtube.com/embed/1cs1wf35jes", baixo: "https://www.youtube.com/embed/Ibfb9BQPy5Y" }  // 1
+    { cima: "./brainrots/2026-02-08_01-21-21.mp4", baixo: "./brainrots/2026-02-08_01-19-38.mp4" },
+    { cima: "./brainrots/2026-02-08_01-25-54.mp4", baixo: "./brainrots/2026-02-08_01-23-48.mp4" },
+    { cima: "./brainrots/2026-02-08_01-50-21.mp4", baixo: "./brainrots/2026-02-08_01-48-29.mp4" },
+    { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" },
+    { cima: "./brainrots/2026-04-11_19-57-43.mp4", baixo: "./brainrots/2026-04-11_19-52-04.mp4" },
+    { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" },
+    { cima: "./brainrots/2026-04-15_11-57-12.mp4", baixo: "./brainrots/2026-04-15_11-55-52_(1).mp4" },
+    { cima: "./brainrots/2026-06-07_02-39-30.mp4", baixo: "./brainrots/2026-06-07_02-36-50.mp4" },
+    { cima: "./brainrots/2026-02-08_01-21-21.mp4", baixo: "./brainrots/2026-02-08_01-19-38.mp4" }
   ];
 
   const principalGames = [
@@ -296,21 +294,25 @@ export const Portfolio: React.FC = () => {
                 <div key={i} className="flex flex-col gap-8">
                   {/* CIMA */}
                   <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
-                    <iframe
-                      src={`${pair.cima}?autoplay=1&mute=1&loop=1&playlist=${pair.cima.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1&widgetv2=1`}
-                      className="w-[150%] h-[150%] pointer-events-none"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      frameBorder="0"
+                    <video
+                      src={pair.cima}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover pointer-events-none"
                     />
                     <div className="absolute inset-0 z-10"></div>
                   </div>
                   {/* BAIXO */}
                   <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
-                    <iframe
-                      src={`${pair.baixo}?autoplay=1&mute=1&loop=1&playlist=${pair.baixo.split('/').pop()}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&disablekb=1&fs=0&playsinline=1&enablejsapi=1&widgetv2=1`}
-                      className="w-[150%] h-[150%] pointer-events-none"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      frameBorder="0"
+                    <video
+                      src={pair.baixo}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover pointer-events-none"
                     />
                     <div className="absolute inset-0 z-10"></div>
                   </div>

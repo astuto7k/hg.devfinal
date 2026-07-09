@@ -105,7 +105,7 @@ export const Hero: React.FC = () => {
               <div className="w-64 h-64 md:w-[480px] md:h-[480px] rounded-full p-1.5 border border-brand-primary/10 shadow-[0_0_120px_rgba(43,159,230,0.12)] relative transition-all duration-700">
                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/5 transition-all duration-700 bg-white/5">
                   <img
-                    src="https://i.ibb.co.com/FkZhW6j4/hg.png"
+                    src="./hg.png"
                     alt="Hg.dev Blue Logo Avatar"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
