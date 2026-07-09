@@ -128,10 +128,6 @@ export const Hero: React.FC = () => {
               <h2 className="font-inter text-xl md:text-2xl font-bold text-brand-primary/90 leading-tight">
                 UI Designer, Animator & Visual Effects Artist
               </h2>
-              <p className="font-inter text-white/50 text-sm md:text-base max-w-lg leading-relaxed">
-                I craft immersive UI systems, expressive motion, and visual effects for Roblox games.
-                My focus is clarity, energy, and polish that keeps players engaged.
-              </p>
             </div>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -151,7 +147,7 @@ export const Hero: React.FC = () => {
               </div>
               <div className="glass-card p-7 rounded-2xl border-l-4 border-l-brand-primary/40 border-white/5 group">
                 <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+25 Games</h3>
-                <p className="text-white/30 text-[10px] leading-tight mt-4 font-medium uppercase tracking-wider">UI and VFX stack</p>
+                <p className="text-white/30 text-[10px] leading-tight mt-4 font-medium uppercase tracking-wider">UI and Animator stack</p>
               </div>
               <div className="glass-card p-7 rounded-2xl border-white/5 group">
                 <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+75B</h3>
