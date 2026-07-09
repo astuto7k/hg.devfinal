@@ -117,7 +117,7 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-10 order-2 lg:order-2 reveal active text-left">
+          <div className="space-y-10 order-2 lg:order-2 reveal active text-left pt-4 md:pt-8">
             <div className="space-y-6">
               <div className="inline-block">
                 <h4 className="font-orbitron text-brand-primary font-bold tracking-[0.5em] uppercase text-[10px] md:text-xs">PORTFOLIO</h4>
