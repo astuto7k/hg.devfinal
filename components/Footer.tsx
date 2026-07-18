@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="w-10 h-10 bg-[#2B9FE6]/10 rounded-full flex items-center justify-center border border-[#2B9FE6]/20 group-hover:border-[#2B9FE6]/50 transition-all duration-500 overflow-hidden">
               <div className="w-full h-full rounded-full bg-white/10 overflow-hidden">
-                <img src="https://i.ibb.co.com/vFJvsy0/Logo-Hg-modified.png" className="w-full h-full object-cover" alt="Hg.dev Logo" loading="lazy" />
+                <img src="./logo-hg.png" className="w-full h-full object-cover" alt="Hg.dev Logo" loading="lazy" />
               </div>
             </div>
             <span className="font-orbitron text-2xl font-black text-white tracking-tighter">Hg<span className="text-[#2B9FE6]">.dev</span></span>
