@@ -108,12 +108,12 @@ export const Portfolio: React.FC = () => {
 
   const animationGifs = [
     { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" },
-    { cima: "./brainrots/2026-02-08_01-23-48.mp4", baixo: "./brainrots/2026-02-08_01-25-54.mp4" },
+    { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" },
     { cima: "./brainrots/2026-02-08_01-48-29.mp4", baixo: "./brainrots/2026-02-08_01-50-21.mp4" },
     { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" },
-    { cima: "./brainrots/2026-04-15_11-55-52_(1).mp4", baixo: "./brainrots/2026-04-15_11-57-12.mp4" },
+    { cima: "./brainrots/2026-02-08_01-23-48.mp4", baixo: "./brainrots/2026-02-08_01-25-54.mp4" },
     { cima: "./brainrots/2026-02-08_01-19-38.mp4", baixo: "./brainrots/2026-02-08_01-21-21.mp4" },
-    { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" },
+    { cima: "./brainrots/2026-04-15_11-55-52_(1).mp4", baixo: "./brainrots/2026-04-15_11-57-12.mp4" },
     { cima: "./brainrots/2026-06-07_02-39-30.mp4", baixo: "./brainrots/2026-06-07_02-36-50.mp4" },
     { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" }
   ];
