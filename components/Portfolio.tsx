@@ -16,9 +16,9 @@ type Game = (typeof principalGames)[number];
 // Velocidade do carrossel de jogos: depende dos jogadores do card no centro da tela.
 // Jogos com 0 jogadores passam a MARQUEE_MAX_SPEED; o mais popular, perto de MARQUEE_MIN_SPEED.
 const MARQUEE_MAX_SPEED = 120; // px/s
-const MARQUEE_MIN_SPEED = 25; // px/s
+const MARQUEE_MIN_SPEED = 30; // px/s
 const MARQUEE_EASING_S = 0.8; // suavização da troca de velocidade
-const MARQUEE_START_HOLD_MS = 1000; // pausa ao entrar na tela, com o 1º card centralizado
+const MARQUEE_START_HOLD_MS = 1000; // pausa ao entrar na tela, com o início da lista à esquerda
 const MARQUEE_START_RAMP_S = 1.5; // aceleração a partir do zero depois da pausa
 
 const marqueeSpeed = (players: number, maxPlayers: number) => {
@@ -66,13 +66,9 @@ const GamesMarquee = ({ items }: { items: MarqueeItem[] }) => {
       track.style.transform = `translate3d(${-offset}px, 0, 0)`;
     };
 
-    // Centraliza o 1º card (o jogo com mais jogadores) no meio da faixa.
-    const centerFirstCard = () => {
-      const half = track.scrollWidth / 2;
-      const card = track.firstElementChild as HTMLElement | null;
-      if (!half || !card) return;
-      const target = card.offsetWidth / 2 - viewport.clientWidth / 2;
-      offset = ((target % half) + half) % half;
+    // Volta ao início da lista: o 1º card (o jogo com mais jogadores) encostado à esquerda, seguido pelos próximos.
+    const resetToStart = () => {
+      offset = 0;
       speed = 0;
       render();
     };
@@ -121,8 +117,8 @@ const GamesMarquee = ({ items }: { items: MarqueeItem[] }) => {
         if (visible === inViewRef.current) return;
         inViewRef.current = visible;
         if (visible) {
-          // Entrou na tela: 1º card centralizado, parado por 1s, depois acelera do zero.
-          if (!reduceMotion.matches) centerFirstCard();
+          // Entrou na tela: início da lista alinhado à esquerda, parado por 1s, depois acelera do zero.
+          if (!reduceMotion.matches) resetToStart();
           holdUntil = performance.now() + MARQUEE_START_HOLD_MS;
           rampStart = 0;
         } else {
