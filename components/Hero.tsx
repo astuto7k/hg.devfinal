@@ -126,7 +126,7 @@ export const Hero: React.FC = () => {
                 Hg.dev
               </h1>
               <h2 className="font-inter text-xl md:text-2xl font-bold text-brand-primary/90 leading-tight">
-                UI Designer, Animator & Visual Effects Artist
+                Animator & 3D Modeler
               </h2>
             </div>
 
