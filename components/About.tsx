@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LayoutGrid, Wand2, Film, MessageSquare, Twitter, Clock } from 'lucide-react';
+import { LayoutGrid, Box, Film, MessageSquare, Twitter, Clock } from 'lucide-react';
 
 const RobloxIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -16,7 +16,7 @@ export const About: React.FC = () => {
           <h4 className="font-orbitron text-[#2B9FE6] font-bold tracking-[0.5em] uppercase text-[10px] mb-4">IDENTITY</h4>
           <h2 className="font-orbitron text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter uppercase">About <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2B9FE6] to-white">me</span></h2>
           <p className="font-inter text-white/40 max-w-2xl text-lg leading-relaxed border-l-2 border-[#2B9FE6]/30 pl-8 hidden md:block text-left">
-            UI designer, animator, and VFX artist focused on clean interfaces, bold motion, and clear feedback for Roblox games.
+            4+ years of experience working on games across some of the biggest platforms in the world.
           </p>
         </div>
 
@@ -25,9 +25,9 @@ export const About: React.FC = () => {
             <h3 className="font-orbitron text-white/20 font-bold text-xs tracking-widest uppercase mb-12">MY SKILLS</h3>
             <div className="grid md:grid-cols-3 gap-10">
               {[
-                { title: "UI Designer", desc: "Menus, HUDs, and progression systems.", icon: <LayoutGrid className="text-[#2B9FE6]" size={28} /> },
                 { title: "Animator", desc: "Transitions, micro-interactions, and flow.", icon: <Film className="text-[#2B9FE6]" size={28} /> },
-                { title: "Visual Effects", desc: "Impact, rewards, and cinematic moments.", icon: <Wand2 className="text-[#2B9FE6]" size={28} /> }
+                { title: "3D Modeler", desc: "Stylized characters, props, and game-ready assets.", icon: <Box className="text-[#2B9FE6]" size={28} /> },
+                { title: "UI Designer", desc: "Menus, HUDs, and progression systems.", icon: <LayoutGrid className="text-[#2B9FE6]" size={28} /> }
               ].map((item, i) => (
                 <div key={i} className="group text-left">
                   <div className="w-16 h-16 rounded-2xl bg-[#2B9FE6]/5 border border-[#2B9FE6]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">

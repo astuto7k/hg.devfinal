@@ -447,7 +447,7 @@ export const Portfolio: React.FC = () => {
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>
               <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">My <span className="text-[#2B9FE6]">Work</span></h2>
-              <p className="font-inter text-white/40 text-base max-w-xl">Animation created in Blender for Fortnite and Roblox.</p>
+              <p className="font-inter text-white/40 text-base max-w-xl">Models and Animation created in Blender for Fortnite and Roblox.</p>
             </div>
           </div>
 
