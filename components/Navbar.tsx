@@ -1,11 +1,13 @@
 
 import React from 'react';
+import { DISCORD_CONTACT_ID, focusDiscordContact } from '../lib/contact';
 
 export const Navbar: React.FC = () => {
   const links = [
     { name: "Home", href: "#hero" },
     { name: "About", href: "#about" },
-    { name: "Portfolio", href: "#portfolio" }
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "Contact", href: `#${DISCORD_CONTACT_ID}` }
   ];
 
   return (
@@ -22,6 +24,7 @@ export const Navbar: React.FC = () => {
           <a
             key={link.name}
             href={link.href}
+            onClick={link.href === `#${DISCORD_CONTACT_ID}` ? focusDiscordContact : undefined}
             className="text-white/50 hover:text-brand-primary font-inter text-sm font-semibold transition-all duration-300 tracking-wide"
           >
             {link.name}

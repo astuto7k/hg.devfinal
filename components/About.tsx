@@ -1,6 +1,8 @@
 
 import React from 'react';
-import { LayoutGrid, Box, Film, MessageSquare, Twitter, Clock } from 'lucide-react';
+import { LayoutGrid, Box, Film, Twitter, Clock } from 'lucide-react';
+import { DiscordIcon } from './DiscordIcon';
+import { DISCORD_CONTACT_ID } from '../lib/contact';
 
 const RobloxIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -45,10 +47,10 @@ export const About: React.FC = () => {
               {[
                 { label: "Roblox", v: "Profile", i: <RobloxIcon />, href: "https://www.roblox.com/users/5816342020/profile" },
                 { label: "X", v: "@hg_D3v", i: <Twitter size={18} />, href: "https://x.com/hg_D3v" },
-                { label: "Discord", v: "Invite", i: <MessageSquare size={18} />, href: "https://discord.gg/KyZyFPNqmn" },
+                { label: "Discord", v: "Invite", i: <DiscordIcon size={18} />, href: "https://discord.gg/KyZyFPNqmn", id: DISCORD_CONTACT_ID },
                 { label: "Status", v: "Available", i: <Clock size={18} />, href: "#" }
               ].map((info, i) => (
-                <a key={i} href={info.href} target={info.href !== "#" ? "_blank" : "_self"} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-[#2B9FE6]/30 transition-all cursor-pointer group">
+                <a key={i} id={info.id} href={info.href} target={info.href !== "#" ? "_blank" : "_self"} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-[#2B9FE6]/30 transition-all cursor-pointer group">
                   <div className="flex items-center gap-4">
                     <div className="text-[#2B9FE6] opacity-50 group-hover:opacity-100">{info.i}</div>
                     <span className="font-orbitron text-white/60 font-bold text-[11px] group-hover:text-white">{info.label}</span>
