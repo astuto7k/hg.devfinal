@@ -8,6 +8,54 @@ const PlatformBadge = ({ platform }: { platform: string }) => (
   </div>
 );
 
+type LiveGame = { universeId?: number; islandCode?: string };
+
+const PLAYERS_REFRESH_MS = 60_000;
+
+const playersKey = (game: LiveGame) =>
+  game.universeId ? `roblox:${game.universeId}` : game.islandCode ? `fortnite:${game.islandCode}` : null;
+
+const formatPlayers = (n: number) => n.toLocaleString('en-US');
+
+const fetchJson = async (url: string, signal: AbortSignal) => {
+  const res = await fetch(url, { signal });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+};
+
+// Busca os jogadores de todos os jogos em paralelo. Fontes que falharem ficam de fora do resultado.
+const fetchLivePlayers = async (games: LiveGame[], signal: AbortSignal): Promise<Record<string, number>> => {
+  const universeIds = [...new Set(games.map((g) => g.universeId).filter((id): id is number => !!id))];
+  const islandCodes = [...new Set(games.map((g) => g.islandCode).filter((code): code is string => !!code))];
+  const result: Record<string, number> = {};
+
+  const robloxTask = universeIds.length
+    ? fetchJson(`https://games.roproxy.com/v1/games?universeIds=${universeIds.join(',')}`, signal).then((json) => {
+        for (const game of json?.data ?? []) {
+          if (typeof game?.id === 'number' && typeof game?.playing === 'number') result[`roblox:${game.id}`] = game.playing;
+        }
+      })
+    : Promise.resolve();
+
+  const fortniteTasks = islandCodes.map((code) =>
+    fetchJson(`https://api.fortnite.com/ecosystem/v1/islands/${code}/metrics/minute/peak-ccu`, signal).then((json) => {
+      const intervals: { value?: number | null }[] = Array.isArray(json?.intervals) ? json.intervals : [];
+      const last = [...intervals].reverse().find((it) => typeof it?.value === 'number');
+      if (last) result[`fortnite:${code}`] = last.value as number;
+    })
+  );
+
+  await Promise.allSettled([robloxTask, ...fortniteTasks]);
+  return result;
+};
+
+const LiveDot = () => (
+  <span className="relative flex h-2 w-2 flex-shrink-0">
+    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping"></span>
+    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+  </span>
+);
+
 interface Project {
   title: string;
   type: string;
@@ -128,20 +176,45 @@ export const Portfolio: React.FC = () => {
   ];
 
   const principalGames = [
-    { title: "Dead Sky", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/661pd10/Deadsky.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" },
-    { title: "Anime Royale", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/d0Pxf2gP/animeroyale.png", url: "https://www.roblox.com/games/16347800591/Anime-Royale" },
-    { title: "Steal a Brainrot", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/Cp3M7tc3/robabrainrot.png", url: "https://www.roblox.com/games/109983668079237/Steal-a-Brainrot" },
-    { title: "Break a Lucky Block!", type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/5gm6zZ2r/no-Filter.jpg", url: "https://www.roblox.com/games/124311897657957/Break-a-Lucky-Block" },
-    { title: "FRUITS VS BRAINROTS", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://i.ibb.co/vxqMtW2P/landscape-comp.jpg", url: "https://fortnite.gg/island?code=4554-4413-1515" },
-    { title: "UNBOX A BRAINROT", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/tzCfifjBmmvkcHogNW/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/9359-3780-0816" },
-    { title: "CRAFT A BRAINROT", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/JVjPptWVmbnoxMcLMn/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4838-2014-5851" },
-    { title: "FISH FOR BRAINROTS", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/siJDuFzWkSFtAiCLen/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4177-0661-0836" },
-    { title: "Dead Sails", type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/7JD05kKg/deadails.png", url: "https://www.roblox.com/games/85832836496852/Dead-Sails" },
-    { title: "Labubu Horror", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/svvhcD85/labubu.png", url: "https://www.roblox.com/games/123755963456017/Labubu-Horror" },
-    { title: "100 Players vs 1 Gorilla", type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/LT1ytQJ/100vs1gorila.png", url: "https://www.roblox.com/games/114312759142223/100-Players-vs-1-Gorilla" },
-    { title: "My Brainrot Island", type: "VFX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/99cj5QKB/brainrotisland.png", url: "https://www.roblox.com/games/122345408677744/My-Brainrot-Island" },
+    { title: "Dead Sky", universeId: 7346053486, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/661pd10/Deadsky.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" },
+    { title: "Anime Royale", universeId: 5638211721, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/d0Pxf2gP/animeroyale.png", url: "https://www.roblox.com/games/16347800591/Anime-Royale" },
+    { title: "Steal a Brainrot", universeId: 7709344486, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/Cp3M7tc3/robabrainrot.png", url: "https://www.roblox.com/games/109983668079237/Steal-a-Brainrot" },
+    { title: "Break a Lucky Block!", universeId: 9344307274, type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/5gm6zZ2r/no-Filter.jpg", url: "https://www.roblox.com/games/124311897657957/Break-a-Lucky-Block" },
+    { title: "FRUITS VS BRAINROTS", islandCode: "4554-4413-1515", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://i.ibb.co/vxqMtW2P/landscape-comp.jpg", url: "https://fortnite.gg/island?code=4554-4413-1515" },
+    { title: "UNBOX A BRAINROT", islandCode: "9359-3780-0816", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/tzCfifjBmmvkcHogNW/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/9359-3780-0816" },
+    { title: "CRAFT A BRAINROT", islandCode: "4838-2014-5851", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/JVjPptWVmbnoxMcLMn/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4838-2014-5851" },
+    { title: "FISH FOR BRAINROTS", islandCode: "4177-0661-0836", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/siJDuFzWkSFtAiCLen/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4177-0661-0836" },
+    { title: "Dead Sails", universeId: 7329738958, type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/7JD05kKg/deadails.png", url: "https://www.roblox.com/games/85832836496852/Dead-Sails" },
+    { title: "Labubu Horror", universeId: 7739021285, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/svvhcD85/labubu.png", url: "https://www.roblox.com/games/123755963456017/Labubu-Horror" },
+    { title: "100 Players vs 1 Gorilla", universeId: 7614141751, type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/LT1ytQJ/100vs1gorila.png", url: "https://www.roblox.com/games/114312759142223/100-Players-vs-1-Gorilla" },
+    { title: "My Brainrot Island", universeId: 8163007296, type: "VFX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/99cj5QKB/brainrotisland.png", url: "https://www.roblox.com/games/122345408677744/My-Brainrot-Island" },
     { title: "Brainrot Garden", type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/YFVyf0BW/Brainrotgarden.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" }
   ];
+
+  const [livePlayers, setLivePlayers] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    let controller: AbortController | null = null;
+    const load = async () => {
+      controller?.abort();
+      controller = new AbortController();
+      const players = await fetchLivePlayers(principalGames, controller.signal);
+      if (!controller.signal.aborted) setLivePlayers(players);
+    };
+    load();
+    const id = window.setInterval(load, PLAYERS_REFRESH_MS);
+    return () => {
+      window.clearInterval(id);
+      controller?.abort();
+    };
+  }, []);
+
+  const playersFor = (game: LiveGame): number | undefined => {
+    const key = playersKey(game);
+    return key ? livePlayers[key] : undefined;
+  };
+  const totalPlayers = (Object.values(livePlayers) as number[]).reduce((sum, n) => sum + n, 0);
+  const hasLivePlayers = Object.keys(livePlayers).length > 0;
 
   const nextWork = () => setWorkIndex((prev) => (prev + 1) % (isMobile ? myWork.length : myWork.length - 2));
   const prevWork = () => setWorkIndex((prev) => (prev - 1 + (isMobile ? myWork.length : myWork.length - 2)) % (isMobile ? myWork.length : myWork.length - 2));
@@ -370,15 +443,38 @@ export const Portfolio: React.FC = () => {
           </div>
 
           <div className="text-center">
-            <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-16">Principal <span className="text-[#2B9FE6]">Games</span></h2>
-            <div className="relative w-full overflow-hidden py-10">
-              <div className="flex animate-marquee-fast whitespace-nowrap hover:[animation-play-state:paused]">
-                {[...principalGames, ...principalGames, ...principalGames, ...principalGames].map((game, i) => (
-                  <div key={i} className="inline-block px-4 w-[340px] text-left">
+            <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">Principal <span className="text-[#2B9FE6]">Games</span></h2>
+            <div className="h-6 mb-6 flex items-center justify-center" aria-live="polite">
+              {hasLivePlayers && (
+                <p className="flex items-center gap-3 font-orbitron text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-[0.3em]">
+                  <LiveDot />
+                  <span><span className="text-emerald-400">{formatPlayers(totalPlayers)}</span> players online now</span>
+                </p>
+              )}
+            </div>
+            <div className="games-marquee-viewport relative w-full overflow-hidden py-10">
+              <div
+                className="games-marquee-track flex w-max whitespace-nowrap"
+                style={{
+                  '--marquee-duration': `${principalGames.length * 6}s`,
+                  '--marquee-duration-mobile': `${principalGames.length * 4.5}s`,
+                } as React.CSSProperties}
+              >
+                {[...principalGames, ...principalGames].map((game, i) => {
+                  const playing = playersFor(game);
+                  const isCopy = i >= principalGames.length;
+                  return (
+                  <div key={i} className={`flex-shrink-0 px-4 w-[340px] text-left${isCopy ? ' games-marquee-copy' : ''}`} aria-hidden={isCopy || undefined}>
                     <div className="group glass-card rounded-[2rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl flex flex-col h-[380px]">
                       <div className="h-44 overflow-hidden relative flex-shrink-0 bg-white/5">
-                        <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" loading="lazy" />
+                        <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
                         <div className="absolute top-4 right-4"><PlatformBadge platform={game.platform} /></div>
+                        {playing !== undefined && (
+                          <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand-black/70 border border-emerald-400/20 flex items-center gap-2">
+                            <LiveDot />
+                            <span className="font-orbitron text-[8px] font-black text-white tracking-widest uppercase">{formatPlayers(playing)} playing</span>
+                          </div>
+                        )}
                       </div>
                       <div className="p-6 flex flex-col flex-grow">
                         <h4 className="font-orbitron text-base font-black text-white uppercase mb-2">{game.title}</h4>
@@ -389,17 +485,23 @@ export const Portfolio: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
         <style dangerouslySetInnerHTML={{
           __html: `
-          @keyframes marquee-fast { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-          .animate-marquee-fast { animation: marquee-fast 12s linear infinite; }
+          @keyframes games-marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+          .games-marquee-track { animation: games-marquee var(--marquee-duration, 80s) linear infinite; will-change: transform; }
           @media (max-width: 768px) {
-            .animate-marquee-fast { animation-duration: 6s; }
+            .games-marquee-track { animation-duration: var(--marquee-duration-mobile, 60s); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .games-marquee-track { animation: none; }
+            .games-marquee-copy { display: none; }
+            .games-marquee-viewport { overflow-x: auto; }
           }
           .custom-scrollbar::-webkit-scrollbar {
             width: 4px;
