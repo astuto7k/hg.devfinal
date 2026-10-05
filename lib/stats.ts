@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 // Visitas totais dos jogos Roblox, geradas 1x por semana por scripts/fetch-stats.mjs em public/stats.json.
 const FALLBACK_TOTAL_VISITS = 74_555_976_695;
 
+// Estimativa fixa das visitas dos jogos de Fortnite, que a API não permite contar.
+// É somada ao total do Roblox só na exibição (inclusive no fallback); o stats.json guarda apenas o Roblox.
+export const FORTNITE_VISITS_ESTIMATE = 5_000_000_000;
+
 let cached: Promise<number> | null = null;
 
 const loadTotalVisits = () =>
@@ -29,5 +33,5 @@ export const useTotalVisits = () => {
       active = false;
     };
   }, []);
-  return total;
+  return total + FORTNITE_VISITS_ESTIMATE;
 };
