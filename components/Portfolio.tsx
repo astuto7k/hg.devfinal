@@ -121,7 +121,7 @@ export const Portfolio: React.FC = () => {
     { cima: "./brainrots/abacaxi-cima.mp4", baixo: "./brainrots/abacaxi-baixo.mp4" },
     { cima: "./brainrots/girassol-cima.mp4", baixo: "./brainrots/girassol-baixo.mp4" },
     { cima: "./brainrots/2026-02-08_01-23-48.mp4", baixo: "./brainrots/2026-02-08_01-25-54.mp4" },
-    { cima: "./brainrots/2026-02-08_01-48-29.mp4", baixo: "./brainrots/2026-02-08_01-50-21.mp4" },
+    { cima: "./brainrots/maca-cima.mp4", baixo: "./brainrots/maca-baixo.mp4" },
     { cima: "./brainrots/fliperama-cima.mp4", baixo: "./brainrots/fliperama-baixo.mp4" },
     { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" },
     { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" }
