@@ -456,7 +456,7 @@ export const Portfolio: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-y-6 mb-10">
               <div className="flex items-center gap-4">
                 <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
-                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">Model + Animation</h3>
+                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">Animated Models</h3>
               </div>
               <div className="flex gap-4 ml-auto">
                 <button onClick={prevAnim} className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-[#2B9FE6] hover:text-brand-black transition-all">
