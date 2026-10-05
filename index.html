@@ -150,7 +150,6 @@
     #skills,
     #nexus,
     #chronicle,
-    #contact,
     #hero {
       background-color: transparent !important;
     }
@@ -237,6 +236,26 @@
         filter: none !important;
         will-change: transform, opacity;
       }
+    }
+
+    /* Destaque da linha Discord do Network Hub ao clicar em Contact */
+    #discord-contact {
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    #discord-contact.contact-highlight {
+      border-color: #2B9FE6 !important;
+      box-shadow: 0 0 0 1px rgba(43, 159, 230, 0.6), 0 0 28px rgba(43, 159, 230, 0.45);
+      transform: scale(1.03);
+      animation: contact-pulse 0.8s ease-in-out 3;
+    }
+    #discord-contact.contact-highlight > * > div,
+    #discord-contact.contact-highlight > span { opacity: 1 !important; }
+    @keyframes contact-pulse {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(43, 159, 230, 0.6), 0 0 18px rgba(43, 159, 230, 0.35); }
+      50% { box-shadow: 0 0 0 2px rgba(43, 159, 230, 0.9), 0 0 40px rgba(43, 159, 230, 0.6); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #discord-contact, #discord-contact.contact-highlight { transition: none; animation: none; }
     }
   </style>
   <script type="importmap">
