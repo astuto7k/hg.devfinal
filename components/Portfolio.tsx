@@ -438,7 +438,7 @@ export const Portfolio: React.FC = () => {
       )}
 
       {/* Main Portfolio Layout */}
-      <div id="portfolio" className="relative reveal reveal-up pb-40">
+      <div id="portfolio" className="relative reveal reveal-up pb-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>

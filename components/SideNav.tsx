@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, User, Briefcase, Zap, Globe, MessageSquare } from 'lucide-react';
+import { Home, User, Briefcase, Zap, Globe } from 'lucide-react';
 
 export const SideNav: React.FC = () => {
   const menu = [
@@ -8,7 +8,6 @@ export const SideNav: React.FC = () => {
     { icon: <Zap size={20} />, href: '#nexus', label: 'Nexus' },
     { icon: <Briefcase size={20} />, href: '#projects', label: 'Work' },
     { icon: <User size={20} />, href: '#about', label: 'Bio' },
-    { icon: <MessageSquare size={20} />, href: '#contact', label: 'Comm' },
   ];
 
   return (
