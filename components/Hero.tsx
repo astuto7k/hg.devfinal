@@ -1,6 +1,9 @@
 
 import React from 'react';
 import { Youtube } from 'lucide-react';
+import { formatCompact, useTotalVisits } from '../lib/stats';
+import { formatPlayers, useLivePlayers } from '../lib/livePlayers';
+import { LiveDot } from './LiveDot';
 
 const RobloxIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -21,6 +24,9 @@ const DiscordIcon = () => (
 );
 
 export const Hero: React.FC = () => {
+  const totalVisits = useTotalVisits();
+  const livePlayers = useLivePlayers();
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 pt-24 overflow-hidden">
       <div className="w-full px-4 md:px-12 relative z-10">
@@ -69,16 +75,23 @@ export const Hero: React.FC = () => {
               <div className="glass-card p-7 rounded-2xl border-white/5 group">
                 <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+5</h3>
                 <p className="text-white font-bold text-xs mt-1">Front Pages</p>
-                <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider">Roblox Home</p>
+                <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider [text-wrap:balance]">Roblox and Fortnite Home</p>
               </div>
               <div className="glass-card p-7 rounded-2xl border-l-4 border-l-brand-primary/40 border-white/5 group">
                 <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+25 Games</h3>
                 <p className="text-white/30 text-[10px] leading-tight mt-4 font-medium uppercase tracking-wider">UI and Animator stack</p>
               </div>
               <div className="glass-card p-7 rounded-2xl border-white/5 group">
-                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+75B</h3>
+                <h3 className="text-3xl font-black text-white group-hover:text-brand-primary transition-colors">+{formatCompact(totalVisits)}</h3>
                 <p className="text-white font-bold text-xs mt-1">Contributions</p>
-                <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider">Global impact</p>
+                {livePlayers.hasData ? (
+                  <p className="flex items-start gap-2 text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider" aria-live="polite">
+                    <span className="mt-[1px]"><LiveDot /></span>
+                    <span><span className="text-emerald-400">{formatPlayers(livePlayers.total)}</span> players online now</span>
+                  </p>
+                ) : (
+                  <p className="text-white/30 text-[10px] leading-tight mt-2 font-medium uppercase tracking-wider">Global impact</p>
+                )}
               </div>
             </div>
 

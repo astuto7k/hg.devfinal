@@ -4,6 +4,8 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * 1"
 
 permissions:
   contents: read
@@ -31,6 +33,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Update stats
+        run: node scripts/fetch-stats.mjs
 
       - name: Build
         run: npm run build
