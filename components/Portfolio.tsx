@@ -107,7 +107,7 @@ export const Portfolio: React.FC = () => {
   ];
 
   const animationGifs = [
-    { cima: "./brainrots/lixeira-baixo.mp4", baixo: "./brainrots/lixeira-cima.mp4" },
+    { cima: "./brainrots/lixeira-giro.mp4", baixo: "./brainrots/lixeira-baixo.mp4" },
     { cima: "./brainrots/caracol-baixo.mp4", baixo: "./brainrots/caracol-cima.mp4" },
     { cima: "./brainrots/esqueleto-cima.mp4", baixo: "./brainrots/esqueleto-baixo.mp4" },
     { cima: "./brainrots/castor-cima.mp4", baixo: "./brainrots/castor-baixo.mp4" },
