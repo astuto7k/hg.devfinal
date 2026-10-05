@@ -1,6 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { ChevronRight, ChevronLeft, ExternalLink, X } from 'lucide-react';
+import { principalGames } from '../data/games.js';
+import { formatPlayers, playersKey, useLivePlayers } from '../lib/livePlayers';
+import { LiveDot } from './LiveDot';
 
 const PlatformBadge = ({ platform }: { platform: string }) => (
   <div className="px-3 py-1 rounded-full bg-[#2B9FE6]/10 border border-[#2B9FE6]/20 flex items-center gap-2">
@@ -8,53 +11,107 @@ const PlatformBadge = ({ platform }: { platform: string }) => (
   </div>
 );
 
-type LiveGame = { universeId?: number; islandCode?: string };
+type Game = (typeof principalGames)[number];
 
-const PLAYERS_REFRESH_MS = 60_000;
+// Velocidade do carrossel de jogos: depende dos jogadores do card no centro da tela.
+// Jogos com 0 jogadores passam a MARQUEE_MAX_SPEED; o mais popular, perto de MARQUEE_MIN_SPEED.
+const MARQUEE_MAX_SPEED = 120; // px/s
+const MARQUEE_MIN_SPEED = 25; // px/s
+const MARQUEE_EASING_S = 0.8; // suavização da troca de velocidade
 
-const playersKey = (game: LiveGame) =>
-  game.universeId ? `roblox:${game.universeId}` : game.islandCode ? `fortnite:${game.islandCode}` : null;
-
-const formatPlayers = (n: number) => n.toLocaleString('en-US');
-
-const fetchJson = async (url: string, signal: AbortSignal) => {
-  const res = await fetch(url, { signal });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+const marqueeSpeed = (players: number, maxPlayers: number) => {
+  if (maxPlayers <= 0) return MARQUEE_MAX_SPEED;
+  const k = (MARQUEE_MAX_SPEED / MARQUEE_MIN_SPEED - 1) / Math.log10(1 + maxPlayers);
+  return MARQUEE_MAX_SPEED / (1 + k * Math.log10(1 + Math.max(0, players)));
 };
 
-// Busca os jogadores de todos os jogos em paralelo. Fontes que falharem ficam de fora do resultado.
-const fetchLivePlayers = async (games: LiveGame[], signal: AbortSignal): Promise<Record<string, number>> => {
-  const universeIds = [...new Set(games.map((g) => g.universeId).filter((id): id is number => !!id))];
-  const islandCodes = [...new Set(games.map((g) => g.islandCode).filter((code): code is string => !!code))];
-  const result: Record<string, number> = {};
+const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | undefined)[] }) => {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const playersRef = useRef(players);
+  playersRef.current = players;
 
-  const robloxTask = universeIds.length
-    ? fetchJson(`https://games.roproxy.com/v1/games?universeIds=${universeIds.join(',')}`, signal).then((json) => {
-        for (const game of json?.data ?? []) {
-          if (typeof game?.id === 'number' && typeof game?.playing === 'number') result[`roblox:${game.id}`] = game.playing;
-        }
-      })
-    : Promise.resolve();
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0;
+    let last = 0;
+    let offset = 0;
+    let speed = MARQUEE_MAX_SPEED;
 
-  const fortniteTasks = islandCodes.map((code) =>
-    fetchJson(`https://api.fortnite.com/ecosystem/v1/islands/${code}/metrics/minute/peak-ccu`, signal).then((json) => {
-      const intervals: { value?: number | null }[] = Array.isArray(json?.intervals) ? json.intervals : [];
-      const last = [...intervals].reverse().find((it) => typeof it?.value === 'number');
-      if (last) result[`fortnite:${code}`] = last.value as number;
-    })
+    const step = (now: number) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
+      last = now;
+      const half = track.scrollWidth / 2;
+      const card = track.firstElementChild as HTMLElement | null;
+      const list = playersRef.current;
+      if (half > 0 && card && list.length) {
+        const center = (offset + viewport.clientWidth / 2) % half;
+        const index = Math.floor(center / card.offsetWidth) % list.length;
+        const maxPlayers = Math.max(0, ...list.map((p) => p ?? 0));
+        const target = marqueeSpeed(list[index] ?? 0, maxPlayers);
+        speed += (target - speed) * (1 - Math.exp(-dt / MARQUEE_EASING_S));
+        offset = (offset + speed * dt) % half;
+        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      }
+      frame = requestAnimationFrame(step);
+    };
+
+    const start = () => {
+      if (frame) return;
+      last = 0;
+      frame = requestAnimationFrame(step);
+    };
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+    // Pausa com a aba escondida; com movimento reduzido não anima (lista rola manualmente).
+    const sync = () => {
+      if (reduceMotion.matches) track.style.transform = '';
+      if (document.hidden || reduceMotion.matches) stop();
+      else start();
+    };
+
+    sync();
+    document.addEventListener('visibilitychange', sync);
+    reduceMotion.addEventListener('change', sync);
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', sync);
+      reduceMotion.removeEventListener('change', sync);
+    };
+  }, []);
+
+  return (
+    <div ref={viewportRef} className="games-marquee-viewport relative w-full overflow-hidden py-10">
+      <div ref={trackRef} className="games-marquee-track flex w-max whitespace-nowrap">
+        {[...games, ...games].map((game, i) => {
+          const isCopy = i >= games.length;
+          return (
+            <div key={`${game.title}-${isCopy ? 'copy' : 'main'}`} className={`flex-shrink-0 px-4 w-[340px] text-left${isCopy ? ' games-marquee-copy' : ''}`} aria-hidden={isCopy || undefined}>
+              <div className="group glass-card rounded-[2rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl flex flex-col h-[380px]">
+                <div className="h-44 overflow-hidden relative flex-shrink-0 bg-white/5">
+                  <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute top-4 right-4"><PlatformBadge platform={game.platform} /></div>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h4 className="font-orbitron text-base font-black text-white uppercase mb-2">{game.title}</h4>
+                  <p className="font-inter text-[10px] text-white/20 uppercase tracking-[0.2em] mb-4">{game.type}</p>
+                  <a href={game.url || "#"} target="_blank" className="w-full py-3 bg-white/5 border border-white/10 rounded-xl font-orbitron text-[9px] font-black text-[#2B9FE6] uppercase tracking-[0.2em] hover:bg-[#2B9FE6] hover:text-brand-black transition-all flex items-center justify-center gap-2 mt-auto">
+                    {game.btn} <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
-
-  await Promise.allSettled([robloxTask, ...fortniteTasks]);
-  return result;
 };
-
-const LiveDot = () => (
-  <span className="relative flex h-2 w-2 flex-shrink-0">
-    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping"></span>
-    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
-  </span>
-);
 
 interface Project {
   title: string;
@@ -175,46 +232,22 @@ export const Portfolio: React.FC = () => {
     { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" }
   ];
 
-  const principalGames = [
-    { title: "Dead Sky", universeId: 7346053486, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/661pd10/Deadsky.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" },
-    { title: "Anime Royale", universeId: 5638211721, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/d0Pxf2gP/animeroyale.png", url: "https://www.roblox.com/games/16347800591/Anime-Royale" },
-    { title: "Steal a Brainrot", universeId: 7709344486, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/Cp3M7tc3/robabrainrot.png", url: "https://www.roblox.com/games/109983668079237/Steal-a-Brainrot" },
-    { title: "Break a Lucky Block!", universeId: 9344307274, type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/5gm6zZ2r/no-Filter.jpg", url: "https://www.roblox.com/games/124311897657957/Break-a-Lucky-Block" },
-    { title: "FRUITS VS BRAINROTS", islandCode: "4554-4413-1515", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://i.ibb.co/vxqMtW2P/landscape-comp.jpg", url: "https://fortnite.gg/island?code=4554-4413-1515" },
-    { title: "UNBOX A BRAINROT", islandCode: "9359-3780-0816", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/tzCfifjBmmvkcHogNW/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/9359-3780-0816" },
-    { title: "CRAFT A BRAINROT", islandCode: "4838-2014-5851", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/JVjPptWVmbnoxMcLMn/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4838-2014-5851" },
-    { title: "FISH FOR BRAINROTS", islandCode: "4177-0661-0836", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/siJDuFzWkSFtAiCLen/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4177-0661-0836" },
-    { title: "Dead Sails", universeId: 7329738958, type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/7JD05kKg/deadails.png", url: "https://www.roblox.com/games/85832836496852/Dead-Sails" },
-    { title: "Labubu Horror", universeId: 7739021285, type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/svvhcD85/labubu.png", url: "https://www.roblox.com/games/123755963456017/Labubu-Horror" },
-    { title: "100 Players vs 1 Gorilla", universeId: 7614141751, type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/LT1ytQJ/100vs1gorila.png", url: "https://www.roblox.com/games/114312759142223/100-Players-vs-1-Gorilla" },
-    { title: "My Brainrot Island", universeId: 8163007296, type: "VFX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/99cj5QKB/brainrotisland.png", url: "https://www.roblox.com/games/122345408677744/My-Brainrot-Island" },
-    { title: "Brainrot Garden", type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/YFVyf0BW/Brainrotgarden.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" }
-  ];
-
-  const [livePlayers, setLivePlayers] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    let controller: AbortController | null = null;
-    const load = async () => {
-      controller?.abort();
-      controller = new AbortController();
-      const players = await fetchLivePlayers(principalGames, controller.signal);
-      if (!controller.signal.aborted) setLivePlayers(players);
-    };
-    load();
-    const id = window.setInterval(load, PLAYERS_REFRESH_MS);
-    return () => {
-      window.clearInterval(id);
-      controller?.abort();
-    };
-  }, []);
-
-  const playersFor = (game: LiveGame): number | undefined => {
-    const key = playersKey(game);
-    return key ? livePlayers[key] : undefined;
-  };
-  const totalPlayers = (Object.values(livePlayers) as number[]).reduce((sum, n) => sum + n, 0);
-  const hasLivePlayers = Object.keys(livePlayers).length > 0;
+  const livePlayers = useLivePlayers();
+  // Do jogo com mais jogadores para o com menos; sem dado vão para o fim, na ordem original.
+  const sortedGames = useMemo(() => {
+    const withPlayers = principalGames.map((game, index) => {
+      const key = playersKey(game);
+      return { game, index, players: key ? livePlayers.players[key] : undefined };
+    });
+    withPlayers.sort((a, b) => {
+      if (a.players === undefined || b.players === undefined) {
+        if (a.players === b.players) return a.index - b.index;
+        return a.players === undefined ? 1 : -1;
+      }
+      return b.players - a.players || a.index - b.index;
+    });
+    return withPlayers;
+  }, [livePlayers]);
 
   const nextWork = () => setWorkIndex((prev) => (prev + 1) % (isMobile ? myWork.length : myWork.length - 2));
   const prevWork = () => setWorkIndex((prev) => (prev - 1 + (isMobile ? myWork.length : myWork.length - 2)) % (isMobile ? myWork.length : myWork.length - 2));
@@ -445,61 +478,20 @@ export const Portfolio: React.FC = () => {
           <div className="text-center">
             <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">Principal <span className="text-[#2B9FE6]">Games</span></h2>
             <div className="h-6 mb-6 flex items-center justify-center" aria-live="polite">
-              {hasLivePlayers && (
+              {livePlayers.hasData && (
                 <p className="flex items-center gap-3 font-orbitron text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-[0.3em]">
                   <LiveDot />
-                  <span><span className="text-emerald-400">{formatPlayers(totalPlayers)}</span> players online now</span>
+                  <span><span className="text-emerald-400">{formatPlayers(livePlayers.total)}</span> players online now</span>
                 </p>
               )}
             </div>
-            <div className="games-marquee-viewport relative w-full overflow-hidden py-10">
-              <div
-                className="games-marquee-track flex w-max whitespace-nowrap"
-                style={{
-                  '--marquee-duration': `${principalGames.length * 6}s`,
-                  '--marquee-duration-mobile': `${principalGames.length * 4.5}s`,
-                } as React.CSSProperties}
-              >
-                {[...principalGames, ...principalGames].map((game, i) => {
-                  const playing = playersFor(game);
-                  const isCopy = i >= principalGames.length;
-                  return (
-                  <div key={i} className={`flex-shrink-0 px-4 w-[340px] text-left${isCopy ? ' games-marquee-copy' : ''}`} aria-hidden={isCopy || undefined}>
-                    <div className="group glass-card rounded-[2rem] overflow-hidden border-white/5 hover:border-[#2B9FE6]/40 transition-all duration-500 shadow-2xl flex flex-col h-[380px]">
-                      <div className="h-44 overflow-hidden relative flex-shrink-0 bg-white/5">
-                        <img src={game.img} alt={game.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
-                        <div className="absolute top-4 right-4"><PlatformBadge platform={game.platform} /></div>
-                        {playing !== undefined && (
-                          <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand-black/70 border border-emerald-400/20 flex items-center gap-2">
-                            <LiveDot />
-                            <span className="font-orbitron text-[8px] font-black text-white tracking-widest uppercase">{formatPlayers(playing)} playing</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-6 flex flex-col flex-grow">
-                        <h4 className="font-orbitron text-base font-black text-white uppercase mb-2">{game.title}</h4>
-                        <p className="font-inter text-[10px] text-white/20 uppercase tracking-[0.2em] mb-4">{game.type}</p>
-                        <a href={game.url || "#"} target="_blank" className="w-full py-3 bg-white/5 border border-white/10 rounded-xl font-orbitron text-[9px] font-black text-[#2B9FE6] uppercase tracking-[0.2em] hover:bg-[#2B9FE6] hover:text-brand-black transition-all flex items-center justify-center gap-2 mt-auto">
-                          {game.btn} <ExternalLink size={12} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  );
-                })}
-              </div>
-            </div>
+            <GamesMarquee games={sortedGames.map((item) => item.game)} players={sortedGames.map((item) => item.players)} />
           </div>
         </div>
         <style dangerouslySetInnerHTML={{
           __html: `
-          @keyframes games-marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
-          .games-marquee-track { animation: games-marquee var(--marquee-duration, 80s) linear infinite; will-change: transform; }
-          @media (max-width: 768px) {
-            .games-marquee-track { animation-duration: var(--marquee-duration-mobile, 60s); }
-          }
+          .games-marquee-track { will-change: transform; }
           @media (prefers-reduced-motion: reduce) {
-            .games-marquee-track { animation: none; }
             .games-marquee-copy { display: none; }
             .games-marquee-viewport { overflow-x: auto; }
           }
