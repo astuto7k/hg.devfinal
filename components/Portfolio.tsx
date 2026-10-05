@@ -131,8 +131,11 @@ export const Portfolio: React.FC = () => {
     { title: "Dead Sky", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/661pd10/Deadsky.png", url: "https://www.roblox.com/games/132651897588092/Dead-Sky" },
     { title: "Anime Royale", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/d0Pxf2gP/animeroyale.png", url: "https://www.roblox.com/games/16347800591/Anime-Royale" },
     { title: "Steal a Brainrot", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/Cp3M7tc3/robabrainrot.png", url: "https://www.roblox.com/games/109983668079237/Steal-a-Brainrot" },
-    { title: "Break a Lucky Block!", type: "VFX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/5gm6zZ2r/no-Filter.jpg", url: "https://www.roblox.com/games/124311897657957/Break-a-Lucky-Block" },
+    { title: "Break a Lucky Block!", type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/5gm6zZ2r/no-Filter.jpg", url: "https://www.roblox.com/games/124311897657957/Break-a-Lucky-Block" },
     { title: "FRUITS VS BRAINROTS", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://i.ibb.co/vxqMtW2P/landscape-comp.jpg", url: "https://fortnite.gg/island?code=4554-4413-1515" },
+    { title: "UNBOX A BRAINROT", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/tzCfifjBmmvkcHogNW/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/9359-3780-0816" },
+    { title: "CRAFT A BRAINROT", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/JVjPptWVmbnoxMcLMn/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4838-2014-5851" },
+    { title: "FISH FOR BRAINROTS", type: "Animation", platform: "Fortinite", btn: "Open Fortnite", img: "https://cdn-0001.qstv.on.epicgames.com/siJDuFzWkSFtAiCLen/image/landscape_comp.jpeg", url: "https://fortnite.gg/island/4177-0661-0836" },
     { title: "Dead Sails", type: "Systems", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/7JD05kKg/deadails.png", url: "https://www.roblox.com/games/85832836496852/Dead-Sails" },
     { title: "Labubu Horror", type: "UI/UX", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co.com/svvhcD85/labubu.png", url: "https://www.roblox.com/games/123755963456017/Labubu-Horror" },
     { title: "100 Players vs 1 Gorilla", type: "Animation", platform: "Roblox", btn: "Open Roblox", img: "https://i.ibb.co/LT1ytQJ/100vs1gorila.png", url: "https://www.roblox.com/games/114312759142223/100-Players-vs-1-Gorilla" },
@@ -287,7 +290,7 @@ export const Portfolio: React.FC = () => {
             <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
                 <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
-                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">ANIMATION</h3>
+                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">Model + Animation</h3>
               </div>
               <div className="flex gap-4">
                 <button onClick={prevAnim} className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-[#2B9FE6] hover:text-brand-black transition-all">

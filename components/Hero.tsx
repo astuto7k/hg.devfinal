@@ -1,12 +1,6 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Youtube } from 'lucide-react';
-
-const wordsList = [
-  "UI", "VFX", "MOTION", "HG", "DESIGN", "ANIMATION",
-  "FX", "INTERFACE", "ROBLOX", "VISUAL", "BRANDING", "CINEMATIC",
-  "UX", "SHADER", "HYPE"
-];
 
 const RobloxIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -27,76 +21,8 @@ const DiscordIcon = () => (
 );
 
 export const Hero: React.FC = () => {
-  const [elements, setElements] = useState<{ type: 'word', x: number, y: number, size: number, opacity: number, text: string, delay: number }[]>([]);
-
-  useEffect(() => {
-    const generateElements = () => {
-      const newElements = [];
-      const wordTarget = 35;
-      const rows = 8;
-      const cols = 10;
-      const cells: { r: number, c: number }[] = [];
-
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          cells.push({ r, c });
-        }
-      }
-
-      const shuffledCells = cells.sort(() => Math.random() - 0.5);
-
-      let placedWords = 0;
-      for (const cell of shuffledCells) {
-        if (placedWords >= wordTarget) break;
-
-        const isRightSide = cell.c >= cols / 2;
-        const randomChance = Math.random();
-
-        if (isRightSide || randomChance < 0.25) {
-          const posX = (cell.c / cols) * 85 + (Math.random() * 5);
-          const posY = (cell.r / rows) * 100 + (Math.random() * (100 / rows) * 0.6);
-
-          newElements.push({
-            type: 'word' as const,
-            text: wordsList[placedWords % wordsList.length],
-            x: posX,
-            y: posY,
-            size: 8 + Math.random() * 10,
-            opacity: 0.07 + Math.random() * 0.08,
-            delay: Math.random() * 5
-          });
-          placedWords++;
-        }
-      }
-      setElements(newElements);
-    };
-
-    generateElements();
-  }, []);
-
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 pt-24 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none select-none z-0">
-        {elements.map((el, i) => (
-          <div
-            key={`word-${i}`}
-            className="absolute font-orbitron font-bold whitespace-nowrap animate-float"
-            style={{
-              left: `${el.x}%`,
-              top: `${el.y}%`,
-              fontSize: `${el.size}px`,
-              opacity: el.opacity,
-              animationDelay: `${el.delay}s`,
-              letterSpacing: '0.15em',
-              color: '#2B9FE6'
-            }}
-          >
-            {el.text}
-          </div>
-        ))}
-      </div>
-
       <div className="w-full px-4 md:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
@@ -126,7 +52,7 @@ export const Hero: React.FC = () => {
                 Hg.dev
               </h1>
               <h2 className="font-inter text-xl md:text-2xl font-bold text-brand-primary/90 leading-tight">
-                UI Designer, Animator & Visual Effects Artist
+                Animator & 3D Modeler
               </h2>
             </div>
 
