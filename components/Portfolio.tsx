@@ -115,7 +115,22 @@ export const Portfolio: React.FC = () => {
     { cima: "./brainrots/esqueleto-cima.mp4", baixo: "./brainrots/esqueleto-baixo.mp4" },
     { cima: "./brainrots/2026-04-15_11-55-52_(1).mp4", baixo: "./brainrots/2026-04-15_11-57-12.mp4" },
     { cima: "./brainrots/2026-06-07_02-39-30.mp4", baixo: "./brainrots/2026-06-07_02-36-50.mp4" },
-    { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" }
+    { cima: "./brainrots/caracol-cima.mp4", baixo: "./brainrots/caracol-baixo.mp4" },
+    { cima: "./brainrots/lixeira-cima.mp4", baixo: "./brainrots/lixeira-baixo.mp4" },
+    { cima: "./brainrots/abobora-cima.mp4", baixo: "./brainrots/abobora-baixo.mp4" },
+    { cima: "./brainrots/fliperama-cima.mp4", baixo: "./brainrots/fliperama-baixo.mp4" },
+    { cima: "./brainrots/crocodilo-cima.mp4", baixo: "./brainrots/crocodilo-baixo.mp4" },
+    { cima: "./brainrots/castor-cima.mp4", baixo: "./brainrots/castor-baixo.mp4" },
+    { cima: "./brainrots/maca-cima.mp4", baixo: "./brainrots/maca-baixo.mp4" },
+    { cima: "./brainrots/abacaxi-cima.mp4", baixo: "./brainrots/abacaxi-baixo.mp4" },
+    { cima: "./brainrots/bruxa-cima.mp4", baixo: "./brainrots/bruxa-baixo.mp4" },
+    { cima: "./brainrots/torradeira-cima.mp4", baixo: "./brainrots/torradeira-baixo.mp4" },
+    { cima: "./brainrots/ceifador-cima.mp4", baixo: "./brainrots/ceifador-baixo.mp4" },
+    { cima: "./brainrots/patorobo-cima.mp4", baixo: "./brainrots/patorobo-baixo.mp4" },
+    { cima: "./brainrots/tigre-cima.mp4", baixo: "./brainrots/tigre-baixo.mp4" },
+    { cima: "./brainrots/girassol-cima.mp4", baixo: "./brainrots/girassol-baixo.mp4" },
+    { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" },
+    { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" }
   ];
 
   const principalGames = [
@@ -291,7 +306,7 @@ export const Portfolio: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {animationGifs.slice(animIndex, animIndex + 3).map((pair, i) => (
-                <div key={i} className="flex flex-col gap-8">
+                <div key={`${animIndex}-${i}`} className="flex flex-col gap-8">
                   {/* CIMA */}
                   <div className="glass-card rounded-[2rem] overflow-hidden border-white/5 group aspect-video relative shadow-xl hover:border-[#2B9FE6]/30 transition-all duration-500 flex items-center justify-center">
                     <video
