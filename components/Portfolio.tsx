@@ -16,7 +16,7 @@ type Game = (typeof principalGames)[number];
 // Velocidade do carrossel de jogos: depende dos jogadores do card no centro da tela.
 // Jogos com 0 jogadores passam a MARQUEE_MAX_SPEED; o mais popular, perto de MARQUEE_MIN_SPEED.
 const MARQUEE_MAX_SPEED = 120; // px/s
-const MARQUEE_MIN_SPEED = 25; // px/s
+const MARQUEE_MIN_SPEED = 30; // px/s
 const MARQUEE_EASING_S = 0.8; // suavização da troca de velocidade
 const MARQUEE_START_HOLD_MS = 1000; // pausa ao entrar na tela, com o início da lista à esquerda
 const MARQUEE_START_RAMP_S = 1.5; // aceleração a partir do zero depois da pausa
