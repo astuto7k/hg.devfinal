@@ -107,30 +107,24 @@ export const Portfolio: React.FC = () => {
   ];
 
   const animationGifs = [
-    { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" },
-    { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" },
-    { cima: "./brainrots/2026-02-08_01-48-29.mp4", baixo: "./brainrots/2026-02-08_01-50-21.mp4" },
-    { cima: "./brainrots/2026-02-08_01-23-48.mp4", baixo: "./brainrots/2026-02-08_01-25-54.mp4" },
-    { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" },
-    { cima: "./brainrots/esqueleto-cima.mp4", baixo: "./brainrots/esqueleto-baixo.mp4" },
-    { cima: "./brainrots/2026-04-15_11-55-52_(1).mp4", baixo: "./brainrots/2026-04-15_11-57-12.mp4" },
-    { cima: "./brainrots/2026-06-07_02-39-30.mp4", baixo: "./brainrots/2026-06-07_02-36-50.mp4" },
-    { cima: "./brainrots/caracol-cima.mp4", baixo: "./brainrots/caracol-baixo.mp4" },
     { cima: "./brainrots/lixeira-cima.mp4", baixo: "./brainrots/lixeira-baixo.mp4" },
-    { cima: "./brainrots/abobora-cima.mp4", baixo: "./brainrots/abobora-baixo.mp4" },
-    { cima: "./brainrots/fliperama-cima.mp4", baixo: "./brainrots/fliperama-baixo.mp4" },
-    { cima: "./brainrots/crocodilo-cima.mp4", baixo: "./brainrots/crocodilo-baixo.mp4" },
+    { cima: "./brainrots/caracol-cima.mp4", baixo: "./brainrots/caracol-baixo.mp4" },
+    { cima: "./brainrots/esqueleto-cima.mp4", baixo: "./brainrots/esqueleto-baixo.mp4" },
     { cima: "./brainrots/castor-cima.mp4", baixo: "./brainrots/castor-baixo.mp4" },
-    { cima: "./brainrots/maca-cima.mp4", baixo: "./brainrots/maca-baixo.mp4" },
-    { cima: "./brainrots/abacaxi-cima.mp4", baixo: "./brainrots/abacaxi-baixo.mp4" },
-    { cima: "./brainrots/bruxa-cima.mp4", baixo: "./brainrots/bruxa-baixo.mp4" },
     { cima: "./brainrots/torradeira-cima.mp4", baixo: "./brainrots/torradeira-baixo.mp4" },
-    { cima: "./brainrots/ceifador-cima.mp4", baixo: "./brainrots/ceifador-baixo.mp4" },
+    { cima: "./brainrots/crocodilo-cima.mp4", baixo: "./brainrots/crocodilo-baixo.mp4" },
     { cima: "./brainrots/patorobo-cima.mp4", baixo: "./brainrots/patorobo-baixo.mp4" },
     { cima: "./brainrots/tigre-cima.mp4", baixo: "./brainrots/tigre-baixo.mp4" },
+    { cima: "./brainrots/ceifador-cima.mp4", baixo: "./brainrots/ceifador-baixo.mp4" },
+    { cima: "./brainrots/bruxa-cima.mp4", baixo: "./brainrots/bruxa-baixo.mp4" },
+    { cima: "./brainrots/2026-02-08_01-48-29.mp4", baixo: "./brainrots/2026-02-08_01-50-21.mp4" },
+    { cima: "./brainrots/abacaxi-cima.mp4", baixo: "./brainrots/abacaxi-baixo.mp4" },
     { cima: "./brainrots/girassol-cima.mp4", baixo: "./brainrots/girassol-baixo.mp4" },
-    { cima: "./brainrots/2026-04-13_20-46-21.mp4", baixo: "./brainrots/2026-04-13_20-41-19.mp4" },
-    { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" }
+    { cima: "./brainrots/2026-02-08_01-23-48.mp4", baixo: "./brainrots/2026-02-08_01-25-54.mp4" },
+    { cima: "./brainrots/2026-02-08_01-48-29.mp4", baixo: "./brainrots/2026-02-08_01-50-21.mp4" },
+    { cima: "./brainrots/fliperama-cima.mp4", baixo: "./brainrots/fliperama-baixo.mp4" },
+    { cima: "./brainrots/2026-04-11_01-52-06.mp4", baixo: "./brainrots/2026-04-11_01-51-44.mp4" },
+    { cima: "./brainrots/2026-04-11_19-52-04.mp4", baixo: "./brainrots/2026-04-11_19-57-43.mp4" }
   ];
 
   const principalGames = [
