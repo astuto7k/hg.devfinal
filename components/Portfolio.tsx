@@ -18,6 +18,8 @@ type Game = (typeof principalGames)[number];
 const MARQUEE_MAX_SPEED = 120; // px/s
 const MARQUEE_MIN_SPEED = 25; // px/s
 const MARQUEE_EASING_S = 0.8; // suavização da troca de velocidade
+const MARQUEE_START_HOLD_MS = 1000; // pausa ao entrar na tela, com o 1º card centralizado
+const MARQUEE_START_RAMP_S = 1.5; // aceleração a partir do zero depois da pausa
 
 const marqueeSpeed = (players: number, maxPlayers: number) => {
   if (maxPlayers <= 0) return MARQUEE_MAX_SPEED;
@@ -25,11 +27,28 @@ const marqueeSpeed = (players: number, maxPlayers: number) => {
   return MARQUEE_MAX_SPEED / (1 + k * Math.log10(1 + Math.max(0, players)));
 };
 
-const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | undefined)[] }) => {
+type MarqueeItem = { game: Game; players: number | undefined };
+
+const GamesMarquee = ({ items }: { items: MarqueeItem[] }) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const playersRef = useRef(players);
-  playersRef.current = players;
+
+  // A ordem exibida só muda com a faixa fora da tela, para nunca trocar o card visível de forma brusca.
+  // A velocidade usa sempre os números mais recentes.
+  const latestOrder = items.map((item) => item.game.title);
+  const latestOrderRef = useRef(latestOrder);
+  latestOrderRef.current = latestOrder;
+  const inViewRef = useRef(false);
+  const [order, setOrder] = useState(latestOrder);
+  const latestKey = latestOrder.join('|');
+  useEffect(() => {
+    if (!inViewRef.current) setOrder(latestOrderRef.current);
+  }, [latestKey]);
+
+  const byTitle = new Map(items.map((item) => [item.game.title, item]));
+  const games = order.map((title) => byTitle.get(title)).filter((item): item is MarqueeItem => !!item);
+  const playersRef = useRef<(number | undefined)[]>([]);
+  playersRef.current = games.map((item) => item.players);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -39,7 +58,24 @@ const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | un
     let frame = 0;
     let last = 0;
     let offset = 0;
-    let speed = MARQUEE_MAX_SPEED;
+    let speed = 0;
+    let holdUntil = 0;
+    let rampStart = 0;
+
+    const render = () => {
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    };
+
+    // Centraliza o 1º card (o jogo com mais jogadores) no meio da faixa.
+    const centerFirstCard = () => {
+      const half = track.scrollWidth / 2;
+      const card = track.firstElementChild as HTMLElement | null;
+      if (!half || !card) return;
+      const target = card.offsetWidth / 2 - viewport.clientWidth / 2;
+      offset = ((target % half) + half) % half;
+      speed = 0;
+      render();
+    };
 
     const step = (now: number) => {
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
@@ -47,14 +83,18 @@ const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | un
       const half = track.scrollWidth / 2;
       const card = track.firstElementChild as HTMLElement | null;
       const list = playersRef.current;
-      if (half > 0 && card && list.length) {
+      if (now >= holdUntil && half > 0 && card && list.length) {
+        if (!rampStart) rampStart = now;
         const center = (offset + viewport.clientWidth / 2) % half;
         const index = Math.floor(center / card.offsetWidth) % list.length;
         const maxPlayers = Math.max(0, ...list.map((p) => p ?? 0));
-        const target = marqueeSpeed(list[index] ?? 0, maxPlayers);
+        // Depois da pausa, a velocidade-alvo sobe de 0 até a normal com easing (sem tranco).
+        const ramp = Math.min((now - rampStart) / 1000 / MARQUEE_START_RAMP_S, 1);
+        const eased = ramp * ramp * (3 - 2 * ramp);
+        const target = marqueeSpeed(list[index] ?? 0, maxPlayers) * eased;
         speed += (target - speed) * (1 - Math.exp(-dt / MARQUEE_EASING_S));
         offset = (offset + speed * dt) % half;
-        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+        render();
       }
       frame = requestAnimationFrame(step);
     };
@@ -68,18 +108,38 @@ const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | un
       cancelAnimationFrame(frame);
       frame = 0;
     };
-    // Pausa com a aba escondida; com movimento reduzido não anima (lista rola manualmente).
+    // Só anima com a faixa na tela e a aba visível; com movimento reduzido não anima (lista rola manualmente).
     const sync = () => {
       if (reduceMotion.matches) track.style.transform = '';
-      if (document.hidden || reduceMotion.matches) stop();
+      if (document.hidden || reduceMotion.matches || !inViewRef.current) stop();
       else start();
     };
 
-    sync();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting && entry.intersectionRatio >= 0.5;
+        if (visible === inViewRef.current) return;
+        inViewRef.current = visible;
+        if (visible) {
+          // Entrou na tela: 1º card centralizado, parado por 1s, depois acelera do zero.
+          if (!reduceMotion.matches) centerFirstCard();
+          holdUntil = performance.now() + MARQUEE_START_HOLD_MS;
+          rampStart = 0;
+        } else {
+          // Saiu da tela: aplica a ordem mais recente para a próxima entrada.
+          setOrder(latestOrderRef.current);
+        }
+        sync();
+      },
+      { threshold: [0, 0.5] }
+    );
+
+    observer.observe(viewport);
     document.addEventListener('visibilitychange', sync);
     reduceMotion.addEventListener('change', sync);
     return () => {
       stop();
+      observer.disconnect();
       document.removeEventListener('visibilitychange', sync);
       reduceMotion.removeEventListener('change', sync);
     };
@@ -88,7 +148,7 @@ const GamesMarquee = ({ games, players }: { games: Game[]; players: (number | un
   return (
     <div ref={viewportRef} className="games-marquee-viewport relative w-full overflow-hidden py-10">
       <div ref={trackRef} className="games-marquee-track flex w-max whitespace-nowrap">
-        {[...games, ...games].map((game, i) => {
+        {[...games, ...games].map(({ game }, i) => {
           const isCopy = i >= games.length;
           return (
             <div key={`${game.title}-${isCopy ? 'copy' : 'main'}`} className={`flex-shrink-0 px-4 w-[340px] text-left${isCopy ? ' games-marquee-copy' : ''}`} aria-hidden={isCopy || undefined}>
@@ -387,7 +447,7 @@ export const Portfolio: React.FC = () => {
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>
               <h2 className="font-orbitron text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">My <span className="text-[#2B9FE6]">Work</span></h2>
-              <p className="font-inter text-white/40 text-base max-w-xl">Animation created in Blender for Fortnite and Roblox.</p>
+              <p className="font-inter text-white/40 text-base max-w-xl">Models and Animation created in Blender for Fortnite and Roblox.</p>
             </div>
           </div>
 
@@ -396,7 +456,7 @@ export const Portfolio: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-y-6 mb-10">
               <div className="flex items-center gap-4">
                 <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
-                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">Model + Animation</h3>
+                <h3 className="font-orbitron text-[#2B9FE6] font-bold text-xl tracking-[0.4em] uppercase">Animated Models</h3>
               </div>
               <div className="flex gap-4 ml-auto">
                 <button onClick={prevAnim} className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-[#2B9FE6] hover:text-brand-black transition-all">
@@ -485,7 +545,7 @@ export const Portfolio: React.FC = () => {
                 </p>
               )}
             </div>
-            <GamesMarquee games={sortedGames.map((item) => item.game)} players={sortedGames.map((item) => item.players)} />
+            <GamesMarquee items={sortedGames} />
           </div>
         </div>
         <style dangerouslySetInnerHTML={{
