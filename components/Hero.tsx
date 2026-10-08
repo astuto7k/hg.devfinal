@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
   const livePlayers = useLivePlayers();
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 pt-24 overflow-hidden">
+    <section id="hero" className="relative flex items-center justify-center px-6 pt-24 md:pt-32 overflow-hidden">
       <div className="w-full px-4 md:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
