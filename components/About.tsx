@@ -12,7 +12,7 @@ const RobloxIcon = () => (
 
 export const About: React.FC = () => {
   return (
-    <section id="about" className="pt-32 pb-10 px-6 relative z-10 overflow-hidden">
+    <section id="about" className="pt-[72px] md:pt-24 px-6 relative z-10 overflow-hidden scroll-mt-12">
       <div className="max-w-7xl mx-auto">
         <div className="mb-24 reveal reveal-up text-center md:text-left">
           <h4 className="font-orbitron text-[#2B9FE6] font-bold tracking-[0.5em] uppercase text-[10px] mb-4">IDENTITY</h4>
@@ -22,7 +22,7 @@ export const About: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-40 reveal reveal-up">
+        <div className="grid lg:grid-cols-3 gap-8 reveal reveal-up">
           <div className="lg:col-span-2 glass-card rounded-[2.5rem] p-10 md:p-14 border-white/5">
             <h3 className="font-orbitron text-white/20 font-bold text-xs tracking-widest uppercase mb-12">MY SKILLS</h3>
             <div className="grid md:grid-cols-3 gap-10">

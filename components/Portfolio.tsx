@@ -438,7 +438,7 @@ export const Portfolio: React.FC = () => {
       )}
 
       {/* Main Portfolio Layout */}
-      <div id="portfolio" className="relative reveal reveal-up pb-12">
+      <div id="portfolio" className="relative reveal reveal-up pt-[72px] md:pt-24 scroll-mt-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8 text-left">
             <div>
@@ -448,7 +448,7 @@ export const Portfolio: React.FC = () => {
           </div>
 
           {/* ANIMATION subsection - first */}
-          <div className="mb-40 reveal reveal-up">
+          <div className="mb-[72px] md:mb-24 reveal reveal-up">
             <div className="flex flex-wrap items-center justify-between gap-y-6 mb-10">
               <div className="flex items-center gap-4">
                 <span className="w-10 h-[2px] bg-[#2B9FE6]"></span>
@@ -509,7 +509,7 @@ export const Portfolio: React.FC = () => {
             <button onClick={nextWork} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#2B9FE6] transition-all"><ChevronRight size={24} /></button>
           </div>
 
-          <div className="relative overflow-hidden mb-40">
+          <div className="relative overflow-hidden mb-14 md:mb-20">
             <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" style={{ transform: `translateX(-${workIndex * (isMobile ? 100 : 100 / 3)}%)` }}>
               {myWork.map((work, i) => (
                 <div key={i} className="min-w-full md:min-w-[33.33%] p-4">
