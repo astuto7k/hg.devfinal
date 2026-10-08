@@ -5,13 +5,8 @@ import { formatCompact, useTotalVisits } from '../lib/stats';
 import { formatPlayers, useLivePlayers } from '../lib/livePlayers';
 import { LiveDot } from './LiveDot';
 import { DiscordIcon } from './DiscordIcon';
+import { RobloxIcon } from './RobloxIcon';
 import { DISCORD_CONTACT_ID, focusDiscordContact } from '../lib/contact';
-
-const RobloxIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M5.19 0L0 18.81L18.81 24L24 5.19L5.19 0ZM17.16 16.59L7.41 14.1L9.9 4.35L19.65 6.84L17.16 16.59Z" />
-  </svg>
-);
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
