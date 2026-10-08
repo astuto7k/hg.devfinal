@@ -25,10 +25,10 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="relative flex items-center justify-center px-6 pt-24 md:pt-32 overflow-hidden">
-      <div className="w-full px-4 md:px-12 relative z-10">
+      <div className="w-full max-w-7xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          <div className="flex justify-center lg:justify-start order-1 lg:order-1 reveal active">
+          <div className="flex justify-center order-1 lg:order-1 reveal active">
             <div className="relative group">
               <div className="w-64 h-64 md:w-[480px] md:h-[480px] rounded-full p-1.5 border border-brand-primary/10 shadow-[0_0_120px_rgba(43,159,230,0.12)] relative transition-all duration-700">
                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/5 transition-all duration-700 bg-white/5">
@@ -45,7 +45,7 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-10 order-2 lg:order-2 reveal active text-left pt-4 md:pt-8">
+          <div className="space-y-10 order-2 lg:order-2 reveal active text-left pt-4 md:pt-8 lg:pt-0">
             <div className="space-y-6">
               <div className="inline-block">
                 <h4 className="font-orbitron text-brand-primary font-bold tracking-[0.5em] uppercase text-[10px] md:text-xs">PORTFOLIO</h4>
